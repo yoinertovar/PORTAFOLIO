@@ -1,0 +1,320 @@
+/* Variables */
+:root {
+  --neon-blue: #00d4ff;
+  --neon-cyan: #00ffff;
+  --dark-bg: #0a0a0f;
+  --darker-bg: #050508;
+  --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Reset y Base */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Rajdhani', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: var(--dark-bg);
+  color: #ffffff;
+  line-height: 1.6;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+/* Tipografía */
+h1, h2, h3, h4 {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+}
+
+/* Layout */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.snap-section {
+  scroll-snap-align: start;
+  min-height: 100vh;
+  padding: 4rem 0;
+  position: relative;
+}
+
+/* Efectos Neon */
+.neon-text {
+  color: var(--neon-blue);
+  text-shadow: 
+    0 0 5px var(--neon-blue),
+    0 0 10px var(--neon-blue);
+  animation: neon-pulse 2s infinite alternate;
+}
+
+@keyframes neon-pulse {
+  to {
+    text-shadow: 
+      0 0 10px var(--neon-blue),
+      0 0 20px var(--neon-blue),
+      0 0 30px var(--neon-blue);
+  }
+}
+
+.neon-border {
+  border: 1px solid rgba(0, 212, 255, 0.3);
+  box-shadow: 
+    0 0 10px rgba(0, 212, 255, 0.2),
+    inset 0 0 10px rgba(0, 212, 255, 0.1);
+  transition: all var(--transition);
+}
+
+.neon-border:hover {
+  border-color: rgba(0, 212, 255, 0.6);
+  box-shadow: 
+    0 0 20px rgba(0, 212, 255, 0.4),
+    inset 0 0 20px rgba(0, 212, 255, 0.2);
+}
+
+.neon-tech-border {
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  box-shadow: 
+    0 0 15px rgba(59, 130, 246, 0.2), 
+    inset 0 0 15px rgba(59, 130, 246, 0.1);
+  transition: all var(--transition);
+}
+
+.neon-tech-border:hover {
+  border-color: rgba(59, 130, 246, 0.5);
+  box-shadow: 
+    0 0 20px rgba(59, 130, 246, 0.4), 
+    inset 0 0 20px rgba(59, 130, 246, 0.2);
+}
+
+.hover\:neon-glow:hover {
+  box-shadow: 
+    0 0 15px rgba(0, 212, 255, 0.5), 
+    0 0 25px rgba(0, 212, 255, 0.3);
+}
+
+/* Glassmorphism */
+.glass {
+  background: rgba(15, 23, 42, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Navegación */
+.nav-item {
+  position: relative;
+  transition: color var(--transition);
+}
+
+.nav-item::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--neon-blue);
+  transition: width var(--transition);
+}
+
+.nav-item:hover::after {
+  width: 100%;
+}
+
+/* Efectos 3D */
+.card-3d {
+  transform: perspective(1000px) rotateX(0) rotateY(0);
+  transition: transform 0.5s ease, box-shadow 0.5s ease;
+  will-change: transform;
+}
+
+.card-3d:hover {
+  transform: perspective(1000px) rotateX(5deg) rotateY(5deg) translateZ(10px);
+}
+
+.card-3d-hover {
+  transform: perspective(1000px) rotateX(0deg) rotateY(0deg);
+  transition: transform 0.5s ease, box-shadow 0.5s ease;
+}
+
+.card-3d-hover:hover {
+  transform: perspective(1000px) rotateX(2deg) rotateY(2deg) translateZ(10px);
+}
+
+/* Botones Cyber */
+.cyber-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  background: transparent;
+  border: 2px solid var(--neon-blue);
+  color: var(--neon-blue);
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  overflow: hidden;
+  transition: all var(--transition);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.cyber-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.cyber-btn:hover {
+  color: white;
+  box-shadow: 0 0 20px var(--neon-blue);
+}
+
+.cyber-btn:hover::before {
+  left: 100%;
+}
+
+/* Efecto Typewriter */
+.typewriter {
+  overflow: hidden;
+  border-right: 3px solid var(--neon-blue);
+  white-space: nowrap;
+  animation: 
+    typing 3.5s steps(40, end),
+    blink-caret 0.75s step-end infinite;
+}
+
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+
+@keyframes blink-caret {
+  from, to { border-color: transparent }
+  50% { border-color: var(--neon-blue) }
+}
+
+/* Tarjetas de Proyectos */
+.project-card {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.project-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, transparent, rgba(0, 212, 255, 0.1), transparent);
+  transform: rotate(45deg);
+  transition: all 0.6s ease;
+  opacity: 0;
+}
+
+.project-card:hover::before {
+  animation: scan 2s linear infinite;
+  opacity: 1;
+}
+
+@keyframes scan {
+  0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+  100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+}
+
+/* Items de Habilidades */
+.skill-item:hover .bg-gradient-to-r {
+  box-shadow: 0 0 8px currentColor;
+}
+
+/* Efectos de Fondo */
+.glow-shadow {
+  box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-float-delay {
+  animation: float 6s ease-in-out 1s infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
+
+/* Animaciones */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+/* Loader */
+.animate-progress {
+  animation: progress 2s ease-in-out infinite;
+}
+
+@keyframes progress {
+  0% { width: 0%; }
+  50% { width: 100%; }
+  100% { width: 0%; }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .typewriter {
+    white-space: normal;
+    border-right: none;
+    animation: none;
+  }
+  
+  .snap-section {
+    padding: 3rem 0;
+    min-height: auto;
+    scroll-snap-align: none;
+  }
+  
+  .cyber-btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .neon-text {
+    font-size: 1.8rem;
+  }
+  
+  .glass {
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+  }
+}
+

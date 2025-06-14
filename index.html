@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Portafolio Web 3.0 de Yoiner TN - Desarrollador Frontend especializado en tecnologías modernas">
+    <title>Portfolio Web 3.0 | Yoiner TN</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap');
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-100 antialiased">
+    <!-- Canvas para partículas -->
+    <canvas id="particles-canvas" class="fixed top-0 left-0 w-full h-full -z-10 pointer-events-none" aria-hidden="true"></canvas>
+    
+    <!-- Navegación -->
+    <nav class="fixed top-0 w-full z-50 glass backdrop-blur-md border-b border-gray-800">
+        <div class="container mx-auto px-4 sm:px-6 py-3">
+            <div class="flex justify-between items-center">
+                <a href="#home" class="text-2xl font-bold neon-text font-['Orbitron'] hover:text-blue-400 transition-colors">
+                    PORTAFOLIO
+                </a>
+                <div class="hidden md:flex space-x-6">
+                    <a href="#home" class="nav-item px-3 py-2">Inicio</a>
+                    <a href="#about" class="nav-item px-3 py-2">Sobre Mí</a>
+                    <a href="#skills" class="nav-item px-3 py-2">Skills</a>
+                    <a href="#projects" class="nav-item px-3 py-2">Proyectos</a>
+                    <a href="#contact" class="nav-item px-3 py-2">Contacto</a>
+                </div>
+                <button id="menu-toggle" class="md:hidden text-white focus:outline-none" aria-label="Menú móvil" aria-expanded="false">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sección Hero -->
+    <section id="home" class="snap-section min-h-screen flex items-center justify-center px-4 relative overflow-hidden">
+        <div class="container mx-auto flex flex-col md:flex-row items-center justify-center gap-12 z-10">
+            <div class="text-center md:text-left order-2 md:order-1">
+                <h1 class="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-6 neon-text font-['Orbitron']">
+                    Yoiner TN
+                </h1>
+                <p class="text-xl sm:text-2xl md:text-3xl mb-8 typewriter font-['Rajdhani']">
+                    Desarrollador Frontend Junior
+                </p>
+                <div class="flex flex-wrap justify-center md:justify-start gap-4">
+                    <a href="#projects" class="cyber-btn px-6 py-3">Ver Proyectos</a>
+                    <button class="cyber-btn px-6 py-3">Descargar CV</button>
+                </div>
+            </div>
+            
+            <div class="order-1 md:order-2 relative">
+                <div class="relative w-48 h-48 md:w-64 md:h-64 rounded-full border-4 border-cyan-400 p-1 glow-shadow">
+                    <img src="img/yoiner.jpg" alt="Yoiner TN - Desarrollador Frontend" 
+                         class="w-full h-full object-cover rounded-full border border-gray-800"
+                         loading="lazy">
+                    <div class="absolute -top-2 -left-2 w-4 h-4 rounded-full bg-cyan-500 animate-pulse"></div>
+                    <div class="absolute -bottom-2 -right-2 w-4 h-4 rounded-full bg-cyan-500 animate-pulse"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Efectos de fondo -->
+        <div class="absolute inset-0 overflow-hidden z-0">
+            <div class="absolute top-1/4 left-1/4 w-32 h-32 rounded-full bg-purple-500 opacity-20 blur-3xl animate-float"></div>
+            <div class="absolute bottom-1/4 right-1/4 w-32 h-32 rounded-full bg-cyan-500 opacity-20 blur-3xl animate-float-delay"></div>
+        </div>
+        
+        <!-- Geometría 3D -->
+        <div id="hero-3d" class="absolute inset-0 z-0"></div>
+    </section>
+
+    <!-- Sobre Mí -->
+    <section id="about" class="snap-section py-20 relative">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl sm:text-5xl font-bold text-center mb-12 neon-text font-['Orbitron']">
+                Sobre Mí
+            </h2>
+            <div class="grid md:grid-cols-2 gap-8 items-center">
+                <div class="glass neon-border p-6 sm:p-8 rounded-lg card-3d">
+                    <h3 class="text-2xl sm:text-3xl font-bold mb-4 text-blue-400">Innovación Digital</h3>
+                    <p class="text-lg leading-relaxed mb-4">
+                        Soy un desarrollador apasionado por las tecnologías emergentes y el diseño de experiencias digitales revolucionarias. Especializado en crear interfaces que no solo funcionan, sino que inspiran.
+                    </p>
+                    <p class="text-lg leading-relaxed">
+                        Mi enfoque combina la creatividad artística con la precisión técnica, creando soluciones que trascienden las expectativas convencionales.
+                    </p>
+                </div>
+                
+                <div class="glass neon-tech-border p-6 sm:p-8 rounded-xl card-3d-hover">
+                    <div class="space-y-6">
+                        <!-- JavaScript -->
+                        <div class="skill-item group">
+                            <div class="flex justify-between items-center mb-1">
+                                <div class="flex items-center">
+                                    <svg class="w-5 h-5 mr-2 text-yellow-400" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M0 0h24v24H0V0zm22.034 18.276c-.175-1.095-.888-2.015-3.003-2.873-.736-.345-1.554-.585-1.797-1.14-.091-.33-.105-.51-.046-.705.15-.646.915-.84 1.515-.66.39.12.75.42.976.9 1.034-.676 1.034-.676 1.755-1.125-.27-.42-.404-.601-.586-.78-.63-.705-1.469-1.065-2.834-1.034l-.705.089c-.676.165-1.32.525-1.71 1.005-1.14 1.291-.811 3.541.569 4.471 1.365 1.02 3.361 1.244 3.616 2.205.24 1.17-.87 1.545-1.966 1.41-.811-.18-1.26-.586-1.755-1.336l-1.83 1.051c.21.48.45.689.81 1.109 1.74 1.756 6.09 1.666 6.871-1.004.029-.09.24-.705.074-1.65l.046-.067zm-8.983-7.245h-2.248c0 1.938-.009 3.864-.009 5.805 0 1.232.063 2.363-.138 2.711-.33.689-1.18.601-1.566.48-.396-.196-.597-.466-.83-.855-.063-.105-.11-.196-.127-.196l-1.825 1.125c.305.63.75 1.172 1.324 1.517.855.51 2.004.675 3.207.405.783-.226 1.458-.691 1.811-1.411.51-.93.402-2.07.397-3.346.012-2.054 0-4.109 0-6.179l.004-.056z"/>
+                                    </svg>
+                                    <span class="font-medium">JavaScript ES6+</span>
+                                </div>
+                                <span class="text-cyan-400 font-mono">92%</span>
+                            </div>
+                            <div class="bg-gray-800 rounded-full h-2.5">
+                                <div class="bg-gradient-to-r from-yellow-400 to-amber-500 rounded-full h-2.5 transition-all duration-1000 ease-out" style="width: 92%"></div>
+                            </div>
+                            <div class="text-xs text-gray-400 mt-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                React, Vue, TypeScript, Node.js
+                            </div>
+                        </div>
+                        
+                        <!-- CSS -->
+                        <div class="skill-item group">
+                            <div class="flex justify-between items-center mb-1">
+                                <div class="flex items-center">
+                                    <svg class="w-5 h-5 mr-2 text-blue-500" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M1.5 0h21l-1.91 21.563L11.977 24l-8.565-2.438L1.5 0zm17.09 4.413L5.41 4.41l.213 2.622 10.125.002-.255 2.716h-6.64l.24 2.573h6.182l-.366 3.523-2.91.804-2.956-.81-.188-2.11h-2.61l.29 3.855L12 19.288l5.373-1.53L18.59 4.414z"/>
+                                    </svg>
+                                    <span class="font-medium">CSS & Diseño Web</span>
+                                </div>
+                                <span class="text-cyan-400 font-mono">95%</span>
+                            </div>
+                            <div class="bg-gray-800 rounded-full h-2.5">
+                                <div class="bg-gradient-to-r from-blue-500 to-cyan-400 rounded-full h-2.5 transition-all duration-1000 ease-out" style="width: 95%"></div>
+                            </div>
+                            <div class="text-xs text-gray-400 mt-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                Tailwind, SASS, Animaciones CSS, Diseño Responsivo
+                            </div>
+                        </div>
+                        
+                        <!-- Frameworks -->
+                        <div class="skill-item group">
+                            <div class="flex justify-between items-center mb-1">
+                                <div class="flex items-center">
+                                    <svg class="w-5 h-5 mr-2 text-purple-500" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M12 12.765h5.791a11.94 11.94 0 01-4.624 7.132l3.577 3.579c3.568-2.922 5.466-7.32 5.466-12.112C22.21 5.005 17.313.11 11.595.11.385.11-.403 11.485.142 12.294L6.69 18.84c1.36-1.362 2.484-2.924 5.31-6.075zm-5.793 0H4.415a11.975 11.975 0 014.624-7.132L5.462 2.053C1.894 4.975-.004 9.373-.004 14.165c0 6.611 4.896 11.506 10.614 11.506 11.21 0 11.998-11.375 11.453-12.184l-6.548-6.546c-1.36 1.362-2.484 2.924-5.31 6.075z"/>
+                                    </svg>
+                                    <span class="font-medium">Frameworks Frontend</span>
+                                </div>
+                                <span class="text-cyan-400 font-mono">88%</span>
+                            </div>
+                            <div class="bg-gray-800 rounded-full h-2.5">
+                                <div class="bg-gradient-to-r from-purple-500 to-pink-500 rounded-full h-2.5 transition-all duration-1000 ease-out" style="width: 88%"></div>
+                            </div>
+                            <div class="text-xs text-gray-400 mt-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                Next.js, Nuxt.js, Gatsby, Astro
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills -->
+    <section id="skills" class="snap-section py-20 bg-gray-900/50">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl sm:text-5xl font-bold text-center mb-12 neon-text font-['Orbitron']">
+                Tecnologías
+            </h2>
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 sm:gap-6">
+                <!-- HTML -->
+                <div class="glass neon-border p-4 sm:p-6 rounded-lg text-center card-3d hover:neon-glow transition-all duration-300 group">
+                    <div class="flex justify-center mb-3 h-12 sm:h-16">
+                        <svg class="h-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 452 520">
+                            <path fill="#e34f26" d="M41 460L0 0h451l-41 460-185 52"/>
+                            <path fill="#ef652a" d="M226 472l149-41 35-394H226"/>
+                            <path fill="#fff" d="M226 208h-75l-5-58h80V94H84l15 171h127zm0 147l-64-17-4-45h-56l7 89 117 32z"/>
+                        </svg>
+                    </div>
+                    <p class="font-semibold text-sm sm:text-base">HTML5</p>
+                    <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black bg-opacity-70 rounded-lg">
+                        <span class="text-xs sm:text-sm text-cyan-300 px-2">Estructura web semántica</span>
+                    </div>
+                </div>
+                
+                <!-- CSS -->
+                <div class="glass neon-border p-4 sm:p-6 rounded-lg text-center card-3d hover:neon-glow transition-all duration-300 group">
+                    <div class="flex justify-center mb-3 h-12 sm:h-16">
+                        <svg class="h-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 452 520">
+                            <path fill="#264de4" d="M41 460L0 0h451l-41 460-185 52"/>
+                            <path fill="#2965f1" d="M226 472l149-41 35-394H226"/>
+                            <path fill="#fff" d="M226 208v106h80l-7 73-73 20v72l132-37 9-104h56l-7 130-185 51-185-51-12-140h56l6 73 117 32z"/>
+                        </svg>
+                    </div>
+                    <p class="font-semibold text-sm sm:text-base">CSS3</p>
+                    <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black bg-opacity-70 rounded-lg">
+                        <span class="text-xs sm:text-sm text-cyan-300 px-2">Estilos y animaciones</span>
+                    </div>
+                </div>
+                
+                <!-- JavaScript -->
+                <div class="glass neon-border p-4 sm:p-6 rounded-lg text-center card-3d hover:neon-glow transition-all duration-300 group">
+                    <div class="flex justify-center mb-3 h-12 sm:h-16">
+                        <svg class="h-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 630 630">
+                            <rect width="630" height="630" fill="#f7df1e"/>
+                            <path d="M423.2 492.19c12.69 20.72 29.2 35.95 58.4 35.95 24.53 0 40.2-12.26 40.2-29.2 0-20.3-16.1-27.49-43.1-39.3l-14.8-6.35c-42.72-18.2-71.1-41-71.1-89.2 0-44.4 33.83-78.2 86.7-78.2 37.64 0 64.7 13.1 84.2 47.4l-46.1 29.6c-10.15-18.2-21.1-25.37-38.1-25.37-17.34 0-28.33 11-28.33 25.37 0 17.76 11 24.95 36.4 35.95l14.8 6.34c50.3 21.57 78.7 43.56 78.7 93 0 53.3-41.87 82.5-98.1 82.5-54.98 0-90.5-26.2-107.88-60.54zm-209.13 5.13c9.3 16.5 17.76 30.45 38.1 30.45 19.45 0 31.72-7.61 31.72-37.2v-201.3h59.2v202.1c0 61.3-35.94 89.2-88.4 89.2-47.4 0-74.85-24.53-88.81-54.075z"/>
+                        </svg>
+                    </div>
+                    <p class="font-semibold text-sm sm:text-base">JavaScript</p>
+                    <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black bg-opacity-70 rounded-lg">
+                        <span class="text-xs sm:text-sm text-cyan-300 px-2">ES6+, APIs, DOM</span>
+                    </div>
+                </div>
+                
+                <!-- Tailwind -->
+                <div class="glass neon-border p-4 sm:p-6 rounded-lg text-center card-3d hover:neon-glow transition-all duration-300 group">
+                    <div class="flex justify-center mb-3 h-12 sm:h-16">
+                        <svg class="h-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 54 33">
+                            <path fill="#38bdf8" fill-rule="evenodd" d="M27 0c-7.2 0-11.7 3.6-13.5 10.8 2.7-3.6 5.85-4.95 9.45-4.05 2.054.513 3.522 2.004 5.147 3.653C30.744 13.09 33.808 16.2 40.5 16.2c7.2 0 11.7-3.6 13.5-10.8-2.7 3.6-5.85 4.95-9.45 4.05-2.054-.513-3.522-2.004-5.147-3.653C36.756 3.11 33.692 0 27 0zM13.5 16.2C6.3 16.2 1.8 19.8 0 27c2.7-3.6 5.85-4.95 9.45-4.05 2.054.514 3.522 2.004 5.147 3.653C17.244 29.29 20.308 32.4 27 32.4c7.2 0 11.7-3.6 13.5-10.8-2.7 3.6-5.85 4.95-9.45 4.05-2.054-.513-3.522-2.004-5.147-3.653C23.256 19.31 20.192 16.2 13.5 16.2z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <p class="font-semibold text-sm sm:text-base">Tailwind</p>
+                    <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black bg-opacity-70 rounded-lg">
+                        <span class="text-xs sm:text-sm text-cyan-300 px-2">Utility-first CSS</span>
+                    </div>
+                </div>
+                
+                <!-- Bootstrap -->
+                <div class="glass neon-border p-4 sm:p-6 rounded-lg text-center card-3d hover:neon-glow transition-all duration-300 group">
+                    <div class="flex justify-center mb-3 h-12 sm:h-16">
+                        <svg class="h-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 118 94">
+                            <path fill="#7952b3" fill-rule="evenodd" d="M24.6 0H93.4C107.8 0 118 9.9 118 23.3V70.7C118 84.1 107.8 94 93.4 94H24.6C10.2 94 0 84.1 0 70.7V23.3C0 9.9 10.2 0 24.6 0ZM59 71.7C72.3 71.7 82 63.1 82 50.9C82 41.1 75 35.6 65.2 34.2V34C72.3 32.6 77 27.4 77 20.8C77 10.3 68.5 6 59 6H35.9C26.6 6 18 12.4 18 23.3V70.7C18 81.6 26.6 88 35.9 88H59.2H59.5H60.2H60.7H61.4H62.1H62.8H63.5H64.2H64.9H65.6H66.3H67H67.7H68.4H69.1H69.8H70.5H71.2H71.9H72.6H73.3H74H74.7H75.4H76.1H76.8H77.5H78.2H78.9H79.6H80.3H81H81.7H82.4H83.1H83.8H84.5H85.2H85.9H86.6H87.3H88H88.7H89.4H90.1H90.8H91.5H92.2H92.9H93.6H94.3H95H95.7H96.4H97.1H97.8H98.5H99.2H99.9H100.6H101.3H102H102.7H103.4H104.1H104.8H105.5H106.2H106.9H107.6H108.3H109H109.7H110.4H111.1H111.8H112.5H113.2H113.9H114.6H115.3H116H116.7H117.4H118V87.3H117.4H116.7H116H115.3H114.6H113.9H113.2H112.5H111.8H111.1H110.4H109.7H109H108.3H107.6H106.9H106.2H105.5H104.8H104.1H103.4H102.7H102H101.3H100.6H99.9H99.2H98.5H97.8H97.1H96.4H95.7H95H94.3H93.6H92.9H92.2H91.5H90.8H90.1H89.4H88.7H88H87.3H86.6H85.9H85.2H84.5H83.8H83.1H82.4H81.7H81H80.3H79.6H78.9H78.2H77.5H76.8H76.1H75.4H74.7H74H73.3H72.6H71.9H71.2H70.5H69.8H69.1H68.4H67.7H67H66.3H65.6H64.9H64.2H63.5H62.8H62.1H61.4H60.7H60.2H59.5H59.2H35.9C28.1 88 25 83.5 25 76.8V70.7C25 63.1 28.1 59 35.9 59H59V71.7ZM59 35H35.9C28.1 35 25 30.5 25 23.8V23.3C25 15.7 28.1 12 35.9 12H59C66.8 12 70 16.5 70 23.2V23.7C70 30.4 66.8 35 59 35Z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <p class="font-semibold text-sm sm:text-base">Bootstrap</p>
+                    <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black bg-opacity-70 rounded-lg">
+                        <span class="text-xs sm:text-sm text-cyan-300 px-2">Framework CSS</span>
+                    </div>
+                </div>
+                
+                <!-- SQL -->
+                <div class="glass neon-border p-4 sm:p-6 rounded-lg text-center card-3d hover:neon-glow transition-all duration-300 group">
+                    <div class="flex justify-center mb-3 h-12 sm:h-16">
+                        <svg class="h-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+                            <path fill="#f29111" d="M64.1 3.8h-.2C46.6 3.8 32 18.4 32 35.9v56.2c0 17.5 14.6 32.1 32.1 32.1h.2c17.5 0 32.1-14.6 32.1-32.1V35.9C96.2 18.4 81.6 3.8 64.1 3.8zm18.8 77.4c-1.1 3.7-2.6 7.1-4.5 10.2-3.1 5.2-7.4 9.2-12.3 11.8-5 2.6-10.6 3.9-16.3 3.9-5.7 0-11.3-1.3-16.3-3.9-4.9-2.6-9.2-6.6-12.3-11.8-3.1-5.2-4.8-11.1-4.8-17.4 0-3.2.4-6.3 1.2-9.3 1.1-3.7 2.6-7.1 4.5-10.2 3.1-5.2 7.4-9.2 12.3-11.8 5-2.6 10.6-3.9 16.3-3.9 5.7 0 11.3 1.3 16.3 3.9 4.9 2.6 9.2 6.6 12.3 11.8 3.1 5.2 4.8 11.1 4.8 17.4 0 3.2-.4 6.3-1.2 9.3z"/>
+                            <path fill="#f29111" d="M64.1 45.3c-8.1 0-15.4 3.3-20.7 8.6-5.3 5.3-8.6 12.6-8.6 20.7s3.3 15.4 8.6 20.7c5.3 5.3 12.6 8.6 20.7 8.6s15.4-3.3 20.7-8.6c5.3-5.3 8.6-12.6 8.6-20.7s-3.3-15.4-8.6-20.7c-5.3-5.3-12.6-8.6-20.7-8.6z"/>
+                        </svg>
+                    </div>
+                    <p class="font-semibold text-sm sm:text-base">SQL</p>
+                    <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black bg-opacity-70 rounded-lg">
+                        <span class="text-xs sm:text-sm text-cyan-300 px-2">Bases de datos relacionales</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+<section id="projects" class="snap-section py-20">
+    <div class="container mx-auto px-6">
+        <h2 class="text-4xl sm:text-5xl font-bold text-center mb-12 neon-text font-['Orbitron'] fade-in">
+            Proyectos
+        </h2>
+        
+        <!-- Carrusel -->
+        <div class="relative group">
+            <!-- Contenedor del carrusel -->
+            <div class="carousel-container relative overflow-hidden h-[550px]">
+                <!-- Pista del carrusel -->
+                <div id="carousel-track" class="carousel-track flex transition-transform duration-700 ease-in-out h-full">
+                    <!-- Proyecto 1 -->
+                    <div class="carousel-slide min-w-full md:min-w-[50%] lg:min-w-[33.333%] px-3 h-full">
+                        <div class="project-card glass neon-border rounded-lg overflow-hidden card-3d h-full flex flex-col">
+                            <div class="h-48 relative flex-shrink-0 overflow-hidden">
+                                <img src="img/page 1.png" 
+                                     alt="DeFi Dashboard" 
+                                     class="project-image w-full h-full object-cover">
+                                <div class="absolute inset-0 flex items-center justify-center">
+                                  
+                                </div>
+                            </div>
+                            <div class="p-6 flex-grow flex flex-col">
+                                <h3 class="text-xl font-bold mb-3 text-blue-400">landin-page 1</h3>
+                                <p class="text-gray-300 mb-4 flex-grow">la página está diseñada para comunicar de manera efectiva la oferta de servicios de SolPro 24/7, destacando su disponibilidad continua, variedad de servicios y experiencia en proyectos residenciales.</p>
+                                <div class="flex flex-wrap gap-2 mb-4">
+                                    <span class="bg-blue-900/50 text-blue-300 px-2 py-1 rounded text-xs sm:text-sm">html</span>
+                                    <span class="bg-blue-900/50 text-blue-300 px-2 py-1 rounded text-xs sm:text-sm">css</span>
+                                    <span class="bg-blue-900/50 text-blue-300 px-2 py-1 rounded text-xs sm:text-sm">javascript</span>
+                                    <span class="bg-blue-900/50 text-blue-300 px-2 py-1 rounded text-xs sm:text-sm">tailwindcss</span>
+                                </div>
+                                <div class="flex gap-3 mt-auto">
+                                    <a href="https://github.com/yoinertovar/SOLPRO24-7.git" class="btn-repo flex-1 text-center py-2 px-4 bg-gray-800 hover:bg-gray-700 text-white rounded-lg transition-colors">
+                                        <i class="fas fa-code mr-2"></i> Repositorio
+                                    </a>
+                                    <a href="https://construcaa.netlify.app/" class="btn-demo flex-1 text-center py-2 px-4 bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors">
+                                        <i class="fas fa-external-link-alt mr-2"></i> Demo
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Proyecto 2 -->
+                    <div class="carousel-slide min-w-full md:min-w-[50%] lg:min-w-[33.333%] px-3 h-full">
+                        <div class="project-card glass neon-border rounded-lg overflow-hidden card-3d h-full flex flex-col">
+                            <div class="h-48 relative flex-shrink-0 overflow-hidden">
+                                <img src="img/LOGIN.png" 
+                                     alt="NFT Marketplace" 
+                                     class="project-image w-full h-full object-cover">
+                                <div class="absolute inset-0 flex items-center justify-center">
+                                    
+                                </div>
+                            </div>
+                            <div class="p-6 flex-grow flex flex-col">
+                                <h3 class="text-xl font-bold mb-3 text-blue-400">Login</h3>
+                                <p class="text-gray-300 mb-4 flex-grow">Interfaz de inicio de sesión con diseño moderno y fondo oscuro, que permite al usuario acceder mediante correo y contraseña, incluye opción de recordar sesión, recuperación de contraseña y acceso con redes sociales como Facebook y Google.</p>
+                                <div class="flex flex-wrap gap-2 mb-4">
+                                    <span class="bg-blue-900/50 text-blue-300 px-2 py-1 rounded text-xs sm:text-sm">html</span>
+                                    <span class="bg-blue-900/50 text-blue-300 px-2 py-1 rounded text-xs sm:text-sm">CSS3</span>
+                                </div>
+                                <div class="flex gap-3 mt-auto">
+                                    <a href="https://github.com/yoinertovar/LOGIN.git" class="btn-repo flex-1 text-center py-2 px-4 bg-gray-800 hover:bg-gray-700 text-white rounded-lg transition-colors">
+                                        <i class="fas fa-code mr-2"></i> Repositorio
+                                    </a>
+                                    <a href="https://login30ydtn.netlify.app/" class="btn-demo flex-1 text-center py-2 px-4 bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors">
+                                        <i class="fas fa-external-link-alt mr-2"></i> Demo
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Proyecto 3 -->
+                    <div class="carousel-slide min-w-full md:min-w-[50%] lg:min-w-[33.333%] px-3 h-full">
+                        <div class="project-card glass neon-border rounded-lg overflow-hidden card-3d h-full flex flex-col">
+                            <div class="h-48 relative flex-shrink-0 overflow-hidden">
+                                <img src="img/LANDING2.png" 
+                                     alt="AI Assistant" 
+                                     class="project-image w-full h-full object-cover">
+                                <div class="absolute inset-0 flex items-center justify-center">
+                                  
+                                </div>
+                            </div>
+                            <div class="p-6 flex-grow flex flex-col">
+                                <h3 class="text-xl font-bold mb-3 text-blue-400">landing 2</h3>
+                                <p class="text-gray-300 mb-4 flex-grow"> landing page estática desarrollada para promocionar y facilitar la reserva de servicios holísticos. Implementa prácticas comunes en desarrollo web frontend, como diseño responsivo, navegación por secciones ancladas, formularios de contacto con integración a WhatsApp, y estructura clara basada en componentes visuales.</p>
+                                <div class="flex flex-wrap gap-2 mb-4">
+                                    <span class="bg-blue-900/50 text-blue-300 px-2 py-1 rounded text-xs sm:text-sm">JavaScript</span>
+                                    <span class="bg-blue-900/50 text-blue-300 px-2 py-1 rounded text-xs sm:text-sm">framerok styles</span>
+                                    <span class="bg-blue-900/50 text-blue-300 px-2 py-1 rounded text-xs sm:text-sm">html</span>
+                                </div>
+                                <div class="flex gap-3 mt-auto">
+                                    <a href="https://github.com/yoinertovar/LANDINGPAGE2.git" class="btn-repo flex-1 text-center py-2 px-4 bg-gray-800 hover:bg-gray-700 text-white rounded-lg transition-colors">
+                                        <i class="fas fa-code mr-2"></i> Repositorio
+                                    </a>
+                                    <a href="https://landinpage2.netlify.app/" class="btn-demo flex-1 text-center py-2 px-4 bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors">
+                                        <i class="fas fa-external-link-alt mr-2"></i> Demo
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Proyecto 4 -->
+                    <div class="carousel-slide min-w-full md:min-w-[50%] lg:min-w-[33.333%] px-3 h-full">
+                        <div class="project-card glass neon-border rounded-lg overflow-hidden card-3d h-full flex flex-col">
+                            <div class="h-48 relative flex-shrink-0 overflow-hidden">
+                                <img src="img/portafolio.png" 
+                                     alt="Blockchain Explorer" 
+                                     class="project-image w-full h-full object-cover">
+                                <div class="absolute inset-0 flex items-center justify-center">
+                                    <div class="text-6xl pulse-animation"></div>
+                                </div>
+                            </div>
+                            <div class="p-6 flex-grow flex flex-col">
+                                <h3 class="text-xl font-bold mb-3 text-blue-400">Portafolio 3.0</h3>
+                                <p class="text-gray-300 mb-4 flex-grow">mi portafolio 3.0 desarrollado con js, html,tailwindcss e IA</p>
+                                <div class="flex flex-wrap gap-2 mb-4">
+                                    <span class="bg-blue-900/50 text-blue-300 px-2 py-1 rounded text-xs sm:text-sm">tailwindcss</span>
+                                    <span class="bg-blue-900/50 text-blue-300 px-2 py-1 rounded text-xs sm:text-sm">html</span>
+                                    <span class="bg-blue-900/50 text-blue-300 px-2 py-1 rounded text-xs sm:text-sm">js</span>
+                                    <span class="bg-blue-900/50 text-blue-300 px-2 py-1 rounded text-xs sm:text-sm">ia</span>
+                                </div>
+                                <div class="flex gap-3 mt-auto">
+                                    <a href="#" class="btn-repo flex-1 text-center py-2 px-4 bg-gray-800 hover:bg-gray-700 text-white rounded-lg transition-colors">
+                                        <i class="fas fa-code mr-2"></i> Repositorio
+                                    </a>
+                                    <a href="#" class="btn-demo flex-1 text-center py-2 px-4 bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors">
+                                        <i class="fas fa-external-link-alt mr-2"></i> Demo
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Indicadores -->
+            <div class="carousel-indicators" id="indicators"></div>
+            
+            <!-- Controles de navegación -->
+            <button id="prevBtn" class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-blue-600/20 hover:bg-blue-600/40 text-blue-300 p-3 rounded-full transition-all duration-300 opacity-0 group-hover:opacity-100">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                </svg>
+            </button>
+            <button id="nextBtn" class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-blue-600/20 hover:bg-blue-600/40 text-blue-300 p-3 rounded-full transition-all duration-300 opacity-0 group-hover:opacity-100">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+            </button>
+        </div>
+    </div>
+</section>
+
+    <!-- Contacto -->
+    <section id="contact" class="snap-section py-20">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl sm:text-5xl font-bold text-center mb-12 neon-text font-['Orbitron']">
+                Contacto
+            </h2>
+            <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-8 sm:gap-12">
+                <div class="glass neon-border p-6 sm:p-8 rounded-lg card-3d">
+                    <h3 class="text-2xl font-bold mb-6 text-blue-400">Conectemos</h3>
+                    <div class="space-y-4">
+                        <!-- WhatsApp -->
+                        <a href="https://wa.me/+573017260118" target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 group hover:bg-gray-800/30 p-3 rounded-lg transition-all duration-300">
+                            <div class="w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center group-hover:bg-green-500 transition-all shrink-0">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.479 5.392 1.479 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="font-semibold">WhatsApp</p>
+                                <p class="text-gray-300 text-sm">+57 301 7260118</p>
+                            </div>
+                        </a>
+                        
+                        <!-- Email -->
+                        <a href="mailto:yoinertnwork@gmail.com" class="flex items-center gap-4 group hover:bg-gray-800/30 p-3 rounded-lg transition-all duration-300">
+                            <div class="w-12 h-12 bg-red-600 rounded-lg flex items-center justify-center group-hover:bg-red-500 transition-all shrink-0">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 2.28 24 3.434 24 5.457z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="font-semibold">Email</p>
+                                <p class="text-gray-300 text-sm">yoinertnwork@gmail.com</p>
+                            </div>
+                        </a>
+                        
+                        <!-- LinkedIn -->
+                        <a href="https://www.linkedin.com/in/yoiner-tovar/" target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 group hover:bg-gray-800/30 p-3 rounded-lg transition-all duration-300">
+                            <div class="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center group-hover:bg-blue-500 transition-all shrink-0">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="font-semibold">LinkedIn</p>
+                                <p class="text-gray-300 text-sm">linkedin.com/in/yoiner-tovar</p>
+                            </div>
+                        </a>
+                        
+                        <!-- GitHub -->
+                        <a href="https://github.com/yoinertovar" target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 group hover:bg-gray-800/30 p-3 rounded-lg transition-all duration-300">
+                            <div class="w-12 h-12 bg-gray-800 rounded-lg flex items-center justify-center group-hover:bg-gray-700 transition-all shrink-0">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.313-1.807-1.313-1.807-1.073-.732.083-.718.083-.718 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="font-semibold">GitHub</p>
+                                <p class="text-gray-300 text-sm">github.com/yoinertovar</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Formulario -->
+                <div class="glass neon-border p-6 sm:p-8 rounded-lg card-3d">
+                    <form id="contact-form" class="space-y-4 sm:space-y-6">
+                        <div>
+                            <label for="name" class="block text-sm font-medium mb-2">Nombre</label>
+                            <input type="text" id="name" name="name" required class="w-full bg-gray-800 border border-blue-500 rounded-lg px-4 py-2 focus:outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-400 transition-colors">
+                        </div>
+                        <div>
+                            <label for="email" class="block text-sm font-medium mb-2">Email</label>
+                            <input type="email" id="email" name="email" required class="w-full bg-gray-800 border border-blue-500 rounded-lg px-4 py-2 focus:outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-400 transition-colors">
+                        </div>
+                        <div>
+                            <label for="message" class="block text-sm font-medium mb-2">Mensaje</label>
+                            <textarea id="message" name="message" rows="4" required class="w-full bg-gray-800 border border-blue-500 rounded-lg px-4 py-2 focus:outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-400 transition-colors"></textarea>
+                        </div>
+                        <button type="submit" class="cyber-btn w-full py-3">Enviar Mensaje</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-6 border-t border-gray-800 mt-20">
+        <div class="container mx-auto px-6 text-center">
+            <p class="text-gray-400 text-sm">&copy; <span id="current-year">2025</span> Web3 Portfolio. Yoiner Toovar.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
