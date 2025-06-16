@@ -339,64 +339,8 @@ function updateCurrentYear() {
   }
 }
 
-// Manejo de formulario
-function setupContactForm() {
-  const form = document.getElementById('contact-form');
-  if (!form) return;
-
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    
-    const formData = new FormData(form);
-    const submitBtn = form.querySelector('button[type="submit"]');
-    
-    try {
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Enviando...';
-      
-      // Simular envío (en producción usar fetch)
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      // Mostrar notificación
-      const notification = document.createElement('div');
-      notification.className = 'fixed bottom-4 right-4 bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg z-50';
-      notification.textContent = '¡Mensaje enviado con éxito!';
-      document.body.appendChild(notification);
-      
-      // Limpiar formulario
-      form.reset();
-      
-      // Ocultar notificación
-      setTimeout(() => {
-        notification.classList.add('opacity-0', 'translate-y-4');
-        setTimeout(() => notification.remove(), 300);
-      }, 3000);
-    } catch (error) {
-      console.error('Error al enviar el formulario:', error);
-    } finally {
-      submitBtn.disabled = false;
-      submitBtn.textContent = 'Enviar Mensaje';
-    }
-  });
-}
-
 // Inicialización
 document.addEventListener('DOMContentLoaded', () => {
-  // Mostrar loader
-  const loader = document.createElement('div');
-  loader.className = 'fixed inset-0 bg-gray-900 flex items-center justify-center z-50 transition-opacity duration-1000';
-  loader.innerHTML = `
-    <div class="text-center">
-      <div class="text-4xl sm:text-6xl font-bold neon-text font-['Orbitron'] mb-4">WEB 3.0</div>
-      <div class="text-lg sm:text-xl text-blue-400 mb-6">Cargando el futuro...</div>
-      <div class="w-48 sm:w-64 h-2 bg-gray-800 rounded-full mx-auto overflow-hidden">
-        <div class="h-2 bg-gradient-to-r from-blue-400 to-cyan-300 rounded-full animate-progress"></div>
-      </div>
-    </div>
-  `;
-  document.body.appendChild(loader);
-
-  // Inicializar componentes
   initParticles();
   initThreeJS();
   setupSmoothScroll();
@@ -405,15 +349,6 @@ document.addEventListener('DOMContentLoaded', () => {
   setupTypewriterEffect();
   setupCustomCursor();
   updateCurrentYear();
-  setupContactForm();
-
-  // Ocultar loader cuando todo esté listo
-  setTimeout(() => {
-    loader.style.opacity = '0';
-    setTimeout(() => {
-      loader.remove();
-    }, 1000);
-  }, 2000);
 });
 
 // Manejar redimensionamiento con debounce
@@ -426,137 +361,137 @@ window.addEventListener('resize', () => {
 });
 
 
-        class AutoCarousel {
-            constructor() {
-                this.track = document.getElementById('carousel-track');
-                this.slides = document.querySelectorAll('.carousel-slide');
-                this.prevBtn = document.getElementById('prevBtn');
-                this.nextBtn = document.getElementById('nextBtn');
-                this.indicatorsContainer = document.getElementById('indicators');
-                
-                this.currentSlide = 0;
-                this.totalSlides = this.slides.length;
-                this.slidesPerView = this.getSlidesPerView();
-                this.maxSlides = this.totalSlides - this.slidesPerView;
-                this.autoPlayInterval = null;
-                this.isAutoPlaying = true;
-                
-                this.init();
-            }
-            
-            init() {
-                this.createIndicators();
-                this.bindEvents();
-                this.startAutoPlay();
-                this.updateCarousel();
-                
-                // Responsive handling
-                window.addEventListener('resize', () => {
-                    this.slidesPerView = this.getSlidesPerView();
-                    this.maxSlides = this.totalSlides - this.slidesPerView;
-                    this.updateCarousel();
-                });
-            }
-            
-            getSlidesPerView() {
-                if (window.innerWidth >= 1024) return 3; // lg
-                if (window.innerWidth >= 768) return 2;  // md
-                return 1; // sm
-            }
-            
-            createIndicators() {
-                this.indicatorsContainer.innerHTML = '';
-                const totalIndicators = this.maxSlides + 1;
-                
-                for (let i = 0; i < totalIndicators; i++) {
-                    const indicator = document.createElement('div');
-                    indicator.classList.add('indicator');
-                    if (i === 0) indicator.classList.add('active');
-                    
-                    indicator.addEventListener('click', () => {
-                        this.goToSlide(i);
-                    });
-                    
-                    this.indicatorsContainer.appendChild(indicator);
-                }
-            }
-            
-            bindEvents() {
-                this.prevBtn.addEventListener('click', () => this.prevSlide());
-                this.nextBtn.addEventListener('click', () => this.nextSlide());
-                
-                // Pause on hover
-                this.track.addEventListener('mouseenter', () => this.pauseAutoPlay());
-                this.track.addEventListener('mouseleave', () => this.resumeAutoPlay());
-                
-                // Pause on card hover
-                this.slides.forEach(slide => {
-                    slide.addEventListener('mouseenter', () => this.pauseAutoPlay());
-                    slide.addEventListener('mouseleave', () => this.resumeAutoPlay());
-                });
-            }
-            
-            updateCarousel() {
-                const slideWidth = 100 / this.slidesPerView;
-                const translateX = -(this.currentSlide * slideWidth);
-                
-                this.track.style.transform = `translateX(${translateX}%)`;
-                this.updateIndicators();
-            }
-            
-            updateIndicators() {
-                const indicators = this.indicatorsContainer.querySelectorAll('.indicator');
-                indicators.forEach((indicator, index) => {
-                    indicator.classList.toggle('active', index === this.currentSlide);
-                });
-            }
-            
-            nextSlide() {
-                if (this.currentSlide < this.maxSlides) {
-                    this.currentSlide++;
-                } else {
-                    this.currentSlide = 0;
-                }
-                this.updateCarousel();
-            }
-            
-            prevSlide() {
-                if (this.currentSlide > 0) {
-                    this.currentSlide--;
-                } else {
-                    this.currentSlide = this.maxSlides;
-                }
-                this.updateCarousel();
-            }
-            
-            goToSlide(index) {
-                this.currentSlide = Math.max(0, Math.min(index, this.maxSlides));
-                this.updateCarousel();
-            }
-            
-            startAutoPlay() {
-                if (this.isAutoPlaying) {
-                    this.autoPlayInterval = setInterval(() => {
-                        this.nextSlide();
-                    }, 4000);
-                }
-            }
-            
-            pauseAutoPlay() {
-                if (this.autoPlayInterval) {
-                    clearInterval(this.autoPlayInterval);
-                    this.autoPlayInterval = null;
-                }
-            }
-            
-            resumeAutoPlay() {
-                if (this.isAutoPlaying && !this.autoPlayInterval) {
-                    this.startAutoPlay();
-                }
-            }
-        }
+class AutoCarousel {
+    constructor() {
+        this.track = document.getElementById('carousel-track');
+        this.slides = document.querySelectorAll('.carousel-slide');
+        this.prevBtn = document.getElementById('prevBtn');
+        this.nextBtn = document.getElementById('nextBtn');
+        this.indicatorsContainer = document.getElementById('indicators');
         
-        // Initialize carousel when DOM is loaded
-        document.addEventListener('DOMContentLoaded', () => {
-            new AutoCarousel();
+        this.currentSlide = 0;
+        this.totalSlides = this.slides.length;
+        this.slidesPerView = this.getSlidesPerView();
+        this.maxSlides = this.totalSlides - this.slidesPerView;
+        this.autoPlayInterval = null;
+        this.isAutoPlaying = true;
+        
+        this.init();
+    }
+    
+    init() {
+        this.createIndicators();
+        this.bindEvents();
+        this.startAutoPlay();
+        this.updateCarousel();
+        
+        // Responsive handling
+        window.addEventListener('resize', () => {
+            this.slidesPerView = this.getSlidesPerView();
+            this.maxSlides = this.totalSlides - this.slidesPerView;
+            this.updateCarousel();
         });
+    }
+    
+    getSlidesPerView() {
+        if (window.innerWidth >= 1024) return 3; // lg
+        if (window.innerWidth >= 768) return 2;  // md
+        return 1; // sm
+    }
+    
+    createIndicators() {
+        this.indicatorsContainer.innerHTML = '';
+        const totalIndicators = this.maxSlides + 1;
+        
+        for (let i = 0; i < totalIndicators; i++) {
+            const indicator = document.createElement('div');
+            indicator.classList.add('indicator');
+            if (i === 0) indicator.classList.add('active');
+            
+            indicator.addEventListener('click', () => {
+                this.goToSlide(i);
+            });
+            
+            this.indicatorsContainer.appendChild(indicator);
+        }
+    }
+    
+    bindEvents() {
+        this.prevBtn.addEventListener('click', () => this.prevSlide());
+        this.nextBtn.addEventListener('click', () => this.nextSlide());
+        
+        // Pause on hover
+        this.track.addEventListener('mouseenter', () => this.pauseAutoPlay());
+        this.track.addEventListener('mouseleave', () => this.resumeAutoPlay());
+        
+        // Pause on card hover
+        this.slides.forEach(slide => {
+            slide.addEventListener('mouseenter', () => this.pauseAutoPlay());
+            slide.addEventListener('mouseleave', () => this.resumeAutoPlay());
+        });
+    }
+    
+    updateCarousel() {
+        const slideWidth = 100 / this.slidesPerView;
+        const translateX = -(this.currentSlide * slideWidth);
+        
+        this.track.style.transform = `translateX(${translateX}%)`;
+        this.updateIndicators();
+    }
+    
+    updateIndicators() {
+        const indicators = this.indicatorsContainer.querySelectorAll('.indicator');
+        indicators.forEach((indicator, index) => {
+            indicator.classList.toggle('active', index === this.currentSlide);
+        });
+    }
+    
+    nextSlide() {
+        if (this.currentSlide < this.maxSlides) {
+            this.currentSlide++;
+        } else {
+            this.currentSlide = 0;
+        }
+        this.updateCarousel();
+    }
+    
+    prevSlide() {
+        if (this.currentSlide > 0) {
+            this.currentSlide--;
+        } else {
+            this.currentSlide = this.maxSlides;
+        }
+        this.updateCarousel();
+    }
+    
+    goToSlide(index) {
+        this.currentSlide = Math.max(0, Math.min(index, this.maxSlides));
+        this.updateCarousel();
+    }
+    
+    startAutoPlay() {
+        if (this.isAutoPlaying) {
+            this.autoPlayInterval = setInterval(() => {
+                this.nextSlide();
+            }, 4000);
+        }
+    }
+    
+    pauseAutoPlay() {
+        if (this.autoPlayInterval) {
+            clearInterval(this.autoPlayInterval);
+            this.autoPlayInterval = null;
+        }
+    }
+    
+    resumeAutoPlay() {
+        if (this.isAutoPlaying && !this.autoPlayInterval) {
+            this.startAutoPlay();
+        }
+    }
+}
+
+// Initialize carousel when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    new AutoCarousel();
+});
