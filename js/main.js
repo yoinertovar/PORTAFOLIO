@@ -17,6 +17,7 @@ const CONFIG = {
   }
 };
 
+
 // Inicializar partículas
 function initParticles() {
   const canvas = document.getElementById('particles-canvas');
@@ -495,3 +496,6 @@ class AutoCarousel {
 document.addEventListener('DOMContentLoaded', () => {
     new AutoCarousel();
 });
+
+
+
