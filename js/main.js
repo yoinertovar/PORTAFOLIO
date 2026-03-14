@@ -1,501 +1,629 @@
-// Configuración global
-const CONFIG = {
-  particles: {
-    count: 100,
-    color: 'rgba(0, 212, 255, 0.5)',
-    maxSize: 3,
-    connectionDistance: 120
-  },
-  threeJS: {
-    cameraZ: 30,
-    wireframeColor: 0x00d4ff,
-    opacity: 0.3
-  },
-  animations: {
-    scrollDebounce: 100,
-    resizeDebounce: 200
-  }
-};
+/* =====================================================
+   PORTFOLIO 3.0 — MAIN JS
+   Yoiner TN | 2026
+   ===================================================== */
 
+'use strict';
 
-// Inicializar partículas
-function initParticles() {
-  const canvas = document.getElementById('particles-canvas');
-  if (!canvas) return;
-  
-  const ctx = canvas.getContext('2d');
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-  
-  // Clase de partícula
-  class Particle {
-    constructor() {
-      this.x = Math.random() * canvas.width;
-      this.y = Math.random() * canvas.height;
-      this.size = Math.random() * CONFIG.particles.maxSize + 1;
-      this.speedX = Math.random() * 2 - 1;
-      this.speedY = Math.random() * 2 - 1;
-      this.opacity = Math.random() * 0.3 + 0.2;
-    }
-    
-    update() {
-      this.x += this.speedX;
-      this.y += this.speedY;
-      
-      // Rebote en bordes
-      if (this.x > canvas.width || this.x < 0) this.speedX *= -1;
-      if (this.y > canvas.height || this.y < 0) this.speedY *= -1;
-    }
-    
-    draw() {
-      ctx.fillStyle = CONFIG.particles.color.replace('0.5', this.opacity);
-      ctx.beginPath();
-      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-      ctx.fill();
-    }
-  }
-  
-  // Crear partículas
-  const particles = Array.from({ length: CONFIG.particles.count }, () => new Particle());
-  
-  // Función de animación
-  function animate() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
-    // Dibujar conexiones
-    particles.forEach((p1, i) => {
-      p1.update();
-      p1.draw();
-      
-      // Conexiones
-      particles.slice(i + 1).forEach(p2 => {
-        const dx = p1.x - p2.x;
-        const dy = p1.y - p2.y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-        
-        if (distance < CONFIG.particles.connectionDistance) {
-          ctx.strokeStyle = CONFIG.particles.color.replace('0.5', (0.2 - distance/CONFIG.particles.connectionDistance));
-          ctx.lineWidth = 0.5;
-          ctx.beginPath();
-          ctx.moveTo(p1.x, p1.y);
-          ctx.lineTo(p2.x, p2.y);
-          ctx.stroke();
-        }
-      });
-    });
-    
-    requestAnimationFrame(animate);
-  }
-  
-  // Manejar redimensionamiento
-  function handleResize() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-  }
-  
-  // Iniciar
-  window.addEventListener('resize', handleResize);
-  animate();
+// ── Reduced Motion Check ──
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// ── ════════════════════════════════
+//    SCROLL PROGRESS BAR
+// ═══════════════════════════════════
+function initScrollProgress() {
+  const bar = document.getElementById('scroll-progress');
+  if (!bar) return;
+  window.addEventListener('scroll', () => {
+    const scrollTop  = document.documentElement.scrollTop;
+    const scrollMax  = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width  = `${(scrollTop / scrollMax) * 100}%`;
+  }, { passive: true });
 }
 
-// Inicializar Three.js
-function initThreeJS() {
-  const container = document.getElementById('hero-3d');
-  if (!container || !window.THREE) return;
-  
-  // Escena
-  const scene = new THREE.Scene();
-  
-  // Cámara
-  const camera = new THREE.PerspectiveCamera(
-    75, 
-    window.innerWidth / window.innerHeight, 
-    0.1, 
-    1000
-  );
-  camera.position.z = CONFIG.threeJS.cameraZ;
-  
-  // Renderer
-  const renderer = new THREE.WebGLRenderer({ 
-    alpha: true, 
-    antialias: true 
-  });
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.setPixelRatio(window.devicePixelRatio);
-  container.appendChild(renderer.domElement);
-  
-  // Geometría
-  const geometry = new THREE.TorusKnotGeometry(10, 3, 100, 16);
-  const material = new THREE.MeshBasicMaterial({ 
-    color: CONFIG.threeJS.wireframeColor,
-    wireframe: true,
-    transparent: true,
-    opacity: CONFIG.threeJS.opacity
-  });
-  
-  const torusKnot = new THREE.Mesh(geometry, material);
-  scene.add(torusKnot);
-  
-  // Variables de mouse
-  let mouseX = 0;
-  let mouseY = 0;
-  
-  // Animación
-  function animate() {
-    requestAnimationFrame(animate);
-    
-    torusKnot.rotation.x += 0.005;
-    torusKnot.rotation.y += 0.005;
-    
-    // Efecto de mouse
-    torusKnot.rotation.x += mouseY * 0.0002;
-    torusKnot.rotation.y += mouseX * 0.0002;
-    
-    renderer.render(scene, camera);
-  }
-  
-  // Eventos
-  function onMouseMove(event) {
-    mouseX = (event.clientX - window.innerWidth / 2) / 100;
-    mouseY = (event.clientY - window.innerHeight / 2) / 100;
-  }
-  
-  function onWindowResize() {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-  }
-  
-  // Configurar eventos
-  window.addEventListener('mousemove', onMouseMove);
-  window.addEventListener('resize', onWindowResize);
-  
-  // Iniciar animación
-  animate();
-}
+// ── ════════════════════════════════
+//    NAVBAR — scroll + active link
+// ═══════════════════════════════════
+function initNavbar() {
+  const navbar = document.getElementById('navbar');
+  const navLinks = document.querySelectorAll('.nav-link');
+  const sections = document.querySelectorAll('section[id]');
 
-// Navegación suave
-function setupSmoothScroll() {
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function(e) {
-      e.preventDefault();
-      const target = document.querySelector(this.getAttribute('href'));
-      if (target) {
-        target.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start'
-        });
-      }
-    });
-  });
-}
+  // Scrolled class
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 50);
+  }, { passive: true });
 
-// Menú móvil
-function setupMobileMenu() {
-  const toggle = document.getElementById('menu-toggle');
-  if (!toggle) return;
-
-  const menu = document.createElement('div');
-  menu.className = 'fixed top-16 left-0 w-full bg-gray-900/95 p-6 transform -translate-y-full transition-transform duration-300 z-40 hidden md:hidden';
-  menu.setAttribute('aria-hidden', 'true');
-  
-  menu.innerHTML = `
-    <nav class="flex flex-col space-y-4">
-      <a href="#home" class="nav-item text-lg">Inicio</a>
-      <a href="#about" class="nav-item text-lg">Sobre Mí</a>
-      <a href="#skills" class="nav-item text-lg">Skills</a>
-      <a href="#projects" class="nav-item text-lg">Proyectos</a>
-      <a href="#contact" class="nav-item text-lg">Contacto</a>
-    </nav>
-  `;
-  document.body.appendChild(menu);
-
-  toggle.addEventListener('click', () => {
-    const isHidden = menu.classList.contains('hidden');
-    if (isHidden) {
-      menu.classList.remove('hidden');
-      menu.classList.remove('-translate-y-full');
-      menu.setAttribute('aria-hidden', 'false');
-      toggle.setAttribute('aria-expanded', 'true');
-    } else {
-      menu.classList.add('-translate-y-full');
-      menu.setAttribute('aria-hidden', 'true');
-      toggle.setAttribute('aria-expanded', 'false');
-    }
-  });
-
-  // Cerrar al hacer clic en enlace
-  menu.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', () => {
-      menu.classList.add('-translate-y-full');
-      menu.setAttribute('aria-hidden', 'true');
-      toggle.setAttribute('aria-expanded', 'false');
-    });
-  });
-}
-
-// Observers para animaciones
-function setupIntersectionObservers() {
-  const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-  };
-  
+  // Active link on scroll
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        entry.target.classList.add('animate-fade-in-up');
-        observer.unobserve(entry.target);
+        const id = entry.target.id;
+        navLinks.forEach(link => {
+          link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
+        });
       }
     });
-  }, observerOptions);
-  
-  // Observar elementos
-  const elementsToObserve = [
-    ...document.querySelectorAll('.card-3d'),
-    ...document.querySelectorAll('.project-card'),
-    ...document.querySelectorAll('.skill-item')
-  ];
-  
-  elementsToObserve.forEach(el => {
-    el.style.opacity = '0';
-    observer.observe(el);
+  }, { rootMargin: '-40% 0px -55% 0px' });
+
+  sections.forEach(section => observer.observe(section));
+
+  // Smooth scroll on nav links
+  navLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      const href = link.getAttribute('href');
+      if (href && href.startsWith('#')) {
+        e.preventDefault();
+        const target = document.querySelector(href);
+        if (target) {
+          target.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'start' });
+          history.pushState(null, '', href);
+          closeMobileMenu();
+        }
+      }
+    });
   });
 }
 
-// Efecto typewriter
-function setupTypewriterEffect() {
-  const elements = document.querySelectorAll('.typewriter');
-  if (elements.length === 0) return;
+// ── ════════════════════════════════
+//    MOBILE MENU
+// ═══════════════════════════════════
+function initMobileMenu() {
+  const btn  = document.getElementById('nav-hamburger');
+  const menu = document.getElementById('mobile-menu');
+  if (!btn || !menu) return;
+
+  btn.addEventListener('click', () => {
+    const open = menu.classList.toggle('open');
+    btn.classList.toggle('open', open);
+    btn.setAttribute('aria-expanded', String(open));
+    menu.setAttribute('aria-hidden', String(!open));
+  });
+
+  // Close on outside click
+  document.addEventListener('click', (e) => {
+    if (!btn.contains(e.target) && !menu.contains(e.target)) {
+      closeMobileMenu();
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeMobileMenu();
+  });
+}
+
+function closeMobileMenu() {
+  const btn  = document.getElementById('nav-hamburger');
+  const menu = document.getElementById('mobile-menu');
+  if (!menu) return;
+  menu.classList.remove('open');
+  btn?.classList.remove('open');
+  btn?.setAttribute('aria-expanded', 'false');
+  menu.setAttribute('aria-hidden', 'true');
+}
+
+// ── ════════════════════════════════
+//    REVEAL ON SCROLL
+// ═══════════════════════════════════
+function initReveal() {
+  const elements = document.querySelectorAll('.reveal');
+
+  if (prefersReducedMotion) {
+    elements.forEach(el => {
+      el.classList.add('visible');
+      el.style.opacity = '1';
+      el.style.transform = 'none';
+    });
+    return;
+  }
 
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-      if (entry.isIntersecting && !entry.target.dataset.typed) {
-        const text = entry.target.textContent;
-        entry.target.textContent = '';
-        typeWriter(entry.target, text, 100);
-        entry.target.dataset.typed = 'true';
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+  elements.forEach(el => observer.observe(el));
+}
+
+// ── ════════════════════════════════
+//    COUNTER ANIMATION (hero stats)
+// ═══════════════════════════════════
+function animateCounter(el) {
+  const target = parseInt(el.dataset.count, 10);
+  const suffix = el.dataset.suffix || '+';
+  const duration = 1400;
+  const step = 30;
+  const steps = Math.ceil(duration / step);
+  let current = 0;
+
+  const timer = setInterval(() => {
+    current++;
+    const value = Math.round((current / steps) * target);
+    el.textContent = value + suffix;
+    if (current >= steps) {
+      el.textContent = target + suffix;
+      clearInterval(timer);
+    }
+  }, step);
+}
+
+function initCounters() {
+  const counters = document.querySelectorAll('[data-count]');
+  if (!counters.length) return;
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !entry.target.dataset.animated) {
+        entry.target.dataset.animated = 'true';
+        if (!prefersReducedMotion) {
+          animateCounter(entry.target);
+        } else {
+          const target = entry.target.dataset.count;
+          const suffix = entry.target.dataset.suffix || '+';
+          entry.target.textContent = target + suffix;
+        }
         observer.unobserve(entry.target);
       }
     });
   }, { threshold: 0.5 });
 
-  elements.forEach(el => observer.observe(el));
+  counters.forEach(el => observer.observe(el));
 }
 
-function typeWriter(element, text, speed = 50) {
-  let i = 0;
-  
-  function typing() {
-    if (i < text.length) {
-      element.textContent += text.charAt(i);
-      i++;
-      setTimeout(typing, speed);
+// ── ════════════════════════════════
+//    TYPEWRITER EFFECT
+// ═══════════════════════════════════
+function initTypewriter() {
+  const el = document.getElementById('typewriter-target');
+  if (!el || prefersReducedMotion) return;
+
+  const texts = [
+    'Desarrollador Frontend',
+    'React Developer',
+    'UI/UX Enthusiast',
+    'Angular Developer',
+    'Creador de Interfaces'
+  ];
+  let textIndex = 0;
+  let charIndex = 0;
+  let isDeleting = false;
+
+  function tick() {
+    const current = texts[textIndex];
+
+    if (isDeleting) {
+      el.textContent = current.substring(0, --charIndex);
+    } else {
+      el.textContent = current.substring(0, ++charIndex);
     }
+
+    let delay = isDeleting ? 50 : 90;
+
+    if (!isDeleting && charIndex === current.length) {
+      delay = 1800;
+      isDeleting = true;
+    } else if (isDeleting && charIndex === 0) {
+      isDeleting = false;
+      textIndex = (textIndex + 1) % texts.length;
+      delay = 400;
+    }
+
+    setTimeout(tick, delay);
   }
-  
-  typing();
+
+  tick();
 }
 
-// Cursor personalizado
-function setupCustomCursor() {
-  if (window.matchMedia('(pointer: coarse)').matches) return;
+// ── ════════════════════════════════
+//    CUSTOM CURSOR
+// ═══════════════════════════════════
+function initCustomCursor() {
+  // Skip on touch devices
+  if ('ontouchstart' in window) return;
+  if (prefersReducedMotion) return;
 
-  const cursor = document.createElement('div');
-  cursor.className = 'fixed w-4 h-4 bg-blue-400 rounded-full pointer-events-none z-50 transition-transform duration-100 hidden sm:block';
-  cursor.style.transform = 'translate(-50%, -50%)';
-  cursor.style.boxShadow = '0 0 15px rgba(0, 212, 255, 0.8)';
-  document.body.appendChild(cursor);
+  const outer = document.getElementById('cursor-outer');
+  const inner = document.getElementById('cursor-inner');
+  if (!outer || !inner) return;
+
+  let mouseX = 0, mouseY = 0;
+  let outerX = 0, outerY = 0;
 
   document.addEventListener('mousemove', (e) => {
-    cursor.style.left = `${e.clientX}px`;
-    cursor.style.top = `${e.clientY}px`;
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    inner.style.left = `${mouseX}px`;
+    inner.style.top  = `${mouseY}px`;
   });
 
-  // Efectos hover
-  const interactiveElements = [
-    ...document.querySelectorAll('a'),
-    ...document.querySelectorAll('button'),
-    ...document.querySelectorAll('.cyber-btn')
-  ];
+  function animateOuter() {
+    outerX += (mouseX - outerX) * 0.12;
+    outerY += (mouseY - outerY) * 0.12;
+    outer.style.left = `${outerX}px`;
+    outer.style.top  = `${outerY}px`;
+    requestAnimationFrame(animateOuter);
+  }
+  animateOuter();
 
-  interactiveElements.forEach(el => {
-    el.addEventListener('mouseenter', () => {
-      cursor.style.transform = 'translate(-50%, -50%) scale(1.5)';
-      cursor.style.backgroundColor = 'rgba(0, 212, 255, 0.3)';
-    });
-    
-    el.addEventListener('mouseleave', () => {
-      cursor.style.transform = 'translate(-50%, -50%) scale(1)';
-      cursor.style.backgroundColor = 'rgb(96, 165, 250)';
+  // Hover effect on interactive elements
+  const interactives = document.querySelectorAll('a, button, [role="button"]');
+  interactives.forEach(el => {
+    el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+    el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+  });
+
+  // Hide on mouse leave
+  document.addEventListener('mouseleave', () => {
+    outer.style.opacity = '0';
+    inner.style.opacity = '0';
+  });
+  document.addEventListener('mouseenter', () => {
+    outer.style.opacity = '1';
+    inner.style.opacity = '1';
+  });
+}
+
+// ── ════════════════════════════════
+//    SKILLS FILTER
+// ═══════════════════════════════════
+function initSkillsFilter() {
+  const buttons = document.querySelectorAll('.skill-cat-btn');
+  const cards   = document.querySelectorAll('.skill-card');
+  if (!buttons.length) return;
+
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      buttons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const filter = btn.dataset.filter;
+
+      cards.forEach(card => {
+        const cat = card.dataset.category;
+        const show = filter === 'all' || cat === filter;
+
+        card.style.transition = 'opacity 0.3s, transform 0.3s';
+        if (show) {
+          card.style.opacity = '1';
+          card.style.transform = '';
+          card.style.pointerEvents = '';
+        } else {
+          card.style.opacity = '0.15';
+          card.style.transform = 'scale(0.95)';
+          card.style.pointerEvents = 'none';
+        }
+      });
     });
   });
 }
 
-// Actualizar año
-function updateCurrentYear() {
-  const yearElement = document.getElementById('current-year');
-  if (yearElement) {
-    yearElement.textContent = new Date().getFullYear();
+// ── ════════════════════════════════
+//    PARTICLES (Canvas)
+// ═══════════════════════════════════
+function initParticles() {
+  const canvas = document.getElementById('particles-canvas');
+  if (!canvas || prefersReducedMotion) return;
+
+  const ctx = canvas.getContext('2d');
+  let W = canvas.width  = window.innerWidth;
+  let H = canvas.height = window.innerHeight;
+
+  const PARTICLE_COUNT = Math.min(60, Math.floor(W * H / 18000));
+  const CONNECTION_DIST = 110;
+
+  class Particle {
+    constructor() { this.reset(true); }
+    reset(initial = false) {
+      this.x  = Math.random() * W;
+      this.y  = initial ? Math.random() * H : -10;
+      this.vx = (Math.random() - 0.5) * 0.5;
+      this.vy = Math.random() * 0.3 + 0.1;
+      this.r  = Math.random() * 1.5 + 0.5;
+      this.a  = Math.random() * 0.35 + 0.1;
+    }
+    update() {
+      this.x += this.vx;
+      this.y += this.vy;
+      if (this.y > H + 10 || this.x < -10 || this.x > W + 10) this.reset();
+    }
+    draw() {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(0, 212, 255, ${this.a})`;
+      ctx.fill();
+    }
+  }
+
+  const particles = Array.from({ length: PARTICLE_COUNT }, () => new Particle());
+
+  function drawConnections() {
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < CONNECTION_DIST) {
+          const alpha = (1 - dist / CONNECTION_DIST) * 0.12;
+          ctx.strokeStyle = `rgba(0, 212, 255, ${alpha})`;
+          ctx.lineWidth = 0.6;
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.stroke();
+        }
+      }
+    }
+  }
+
+  let animId;
+  function animate() {
+    ctx.clearRect(0, 0, W, H);
+    particles.forEach(p => { p.update(); p.draw(); });
+    drawConnections();
+    animId = requestAnimationFrame(animate);
+  }
+
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      W = canvas.width  = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    }, 200);
+  }, { passive: true });
+
+  animate();
+
+  return () => {
+    cancelAnimationFrame(animId);
+  };
+}
+
+// ── ════════════════════════════════
+//    THREE.JS — Hero 3D Background
+// ═══════════════════════════════════
+function initThreeJS() {
+  const container = document.getElementById('hero-3d');
+  if (!container || !window.THREE || prefersReducedMotion) return;
+
+  try {
+    const scene    = new THREE.Scene();
+    const camera   = new THREE.PerspectiveCamera(75, W(), H(), 0.1, 1000);
+    camera.position.z = 28;
+
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    renderer.setSize(W(), H());
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    container.appendChild(renderer.domElement);
+
+    // Multiple meshes
+    const meshes = [];
+
+    // TorusKnot
+    const geo1  = new THREE.TorusKnotGeometry(7, 1.8, 80, 10);
+    const mat1  = new THREE.MeshBasicMaterial({ color: 0x7C3AED, wireframe: true, transparent: true, opacity: 0.18 });
+    const knot  = new THREE.Mesh(geo1, mat1);
+    scene.add(knot);
+    meshes.push(knot);
+
+    // Icosahedron
+    const geo2  = new THREE.IcosahedronGeometry(4, 1);
+    const mat2  = new THREE.MeshBasicMaterial({ color: 0x00D4FF, wireframe: true, transparent: true, opacity: 0.12 });
+    const ico   = new THREE.Mesh(geo2, mat2);
+    ico.position.set(18, 10, -10);
+    scene.add(ico);
+    meshes.push(ico);
+
+    // Octahedron
+    const geo3  = new THREE.OctahedronGeometry(3, 0);
+    const mat3  = new THREE.MeshBasicMaterial({ color: 0xEC4899, wireframe: true, transparent: true, opacity: 0.1 });
+    const oct   = new THREE.Mesh(geo3, mat3);
+    oct.position.set(-20, -8, -5);
+    scene.add(oct);
+    meshes.push(oct);
+
+    let mouseX = 0, mouseY = 0;
+
+    document.addEventListener('mousemove', (e) => {
+      mouseX = (e.clientX / W() - 0.5) * 2;
+      mouseY = (e.clientY / H() - 0.5) * 2;
+    });
+
+    let animId;
+    function animate() {
+      animId = requestAnimationFrame(animate);
+
+      knot.rotation.x += 0.003 + mouseY * 0.0008;
+      knot.rotation.y += 0.004 + mouseX * 0.0008;
+
+      ico.rotation.x  += 0.005;
+      ico.rotation.z  += 0.003;
+
+      oct.rotation.y  += 0.006;
+      oct.rotation.x  -= 0.003;
+
+      renderer.render(scene, camera);
+    }
+
+    function onResize() {
+      camera.aspect = W() / H();
+      camera.updateProjectionMatrix();
+      renderer.setSize(W(), H());
+    }
+
+    window.addEventListener('resize', onResize, { passive: true });
+    animate();
+
+    return () => {
+      cancelAnimationFrame(animId);
+      window.removeEventListener('resize', onResize);
+      if (container.contains(renderer.domElement)) {
+        container.removeChild(renderer.domElement);
+      }
+      renderer.dispose();
+    };
+
+  } catch (err) {
+    console.warn('Three.js init failed:', err);
   }
 }
 
-// Inicialización
-document.addEventListener('DOMContentLoaded', () => {
-  initParticles();
-  initThreeJS();
-  setupSmoothScroll();
-  setupMobileMenu();
-  setupIntersectionObservers();
-  setupTypewriterEffect();
-  setupCustomCursor();
-  updateCurrentYear();
-});
+function W() { return window.innerWidth; }
+function H() { return window.innerHeight; }
 
-// Manejar redimensionamiento con debounce
-let resizeTimeout;
-window.addEventListener('resize', () => {
-  clearTimeout(resizeTimeout);
-  resizeTimeout = setTimeout(() => {
-    // Aquí podrías recargar elementos sensibles al tamaño
-  }, CONFIG.animations.resizeDebounce);
-});
+// ── ════════════════════════════════
+//    MAGNETIC BUTTONS
+// ═══════════════════════════════════
+function initMagneticButtons() {
+  if (prefersReducedMotion || 'ontouchstart' in window) return;
 
-
-class AutoCarousel {
-    constructor() {
-        this.track = document.getElementById('carousel-track');
-        this.slides = document.querySelectorAll('.carousel-slide');
-        this.prevBtn = document.getElementById('prevBtn');
-        this.nextBtn = document.getElementById('nextBtn');
-        this.indicatorsContainer = document.getElementById('indicators');
-        
-        this.currentSlide = 0;
-        this.totalSlides = this.slides.length;
-        this.slidesPerView = this.getSlidesPerView();
-        this.maxSlides = this.totalSlides - this.slidesPerView;
-        this.autoPlayInterval = null;
-        this.isAutoPlaying = true;
-        
-        this.init();
-    }
-    
-    init() {
-        this.createIndicators();
-        this.bindEvents();
-        this.startAutoPlay();
-        this.updateCarousel();
-        
-        // Responsive handling
-        window.addEventListener('resize', () => {
-            this.slidesPerView = this.getSlidesPerView();
-            this.maxSlides = this.totalSlides - this.slidesPerView;
-            this.updateCarousel();
-        });
-    }
-    
-    getSlidesPerView() {
-        if (window.innerWidth >= 1024) return 3; // lg
-        if (window.innerWidth >= 768) return 2;  // md
-        return 1; // sm
-    }
-    
-    createIndicators() {
-        this.indicatorsContainer.innerHTML = '';
-        const totalIndicators = this.maxSlides + 1;
-        
-        for (let i = 0; i < totalIndicators; i++) {
-            const indicator = document.createElement('div');
-            indicator.classList.add('indicator');
-            if (i === 0) indicator.classList.add('active');
-            
-            indicator.addEventListener('click', () => {
-                this.goToSlide(i);
-            });
-            
-            this.indicatorsContainer.appendChild(indicator);
-        }
-    }
-    
-    bindEvents() {
-        this.prevBtn.addEventListener('click', () => this.prevSlide());
-        this.nextBtn.addEventListener('click', () => this.nextSlide());
-        
-        // Pause on hover
-        this.track.addEventListener('mouseenter', () => this.pauseAutoPlay());
-        this.track.addEventListener('mouseleave', () => this.resumeAutoPlay());
-        
-        // Pause on card hover
-        this.slides.forEach(slide => {
-            slide.addEventListener('mouseenter', () => this.pauseAutoPlay());
-            slide.addEventListener('mouseleave', () => this.resumeAutoPlay());
-        });
-    }
-    
-    updateCarousel() {
-        const slideWidth = 100 / this.slidesPerView;
-        const translateX = -(this.currentSlide * slideWidth);
-        
-        this.track.style.transform = `translateX(${translateX}%)`;
-        this.updateIndicators();
-    }
-    
-    updateIndicators() {
-        const indicators = this.indicatorsContainer.querySelectorAll('.indicator');
-        indicators.forEach((indicator, index) => {
-            indicator.classList.toggle('active', index === this.currentSlide);
-        });
-    }
-    
-    nextSlide() {
-        if (this.currentSlide < this.maxSlides) {
-            this.currentSlide++;
-        } else {
-            this.currentSlide = 0;
-        }
-        this.updateCarousel();
-    }
-    
-    prevSlide() {
-        if (this.currentSlide > 0) {
-            this.currentSlide--;
-        } else {
-            this.currentSlide = this.maxSlides;
-        }
-        this.updateCarousel();
-    }
-    
-    goToSlide(index) {
-        this.currentSlide = Math.max(0, Math.min(index, this.maxSlides));
-        this.updateCarousel();
-    }
-    
-    startAutoPlay() {
-        if (this.isAutoPlaying) {
-            this.autoPlayInterval = setInterval(() => {
-                this.nextSlide();
-            }, 4000);
-        }
-    }
-    
-    pauseAutoPlay() {
-        if (this.autoPlayInterval) {
-            clearInterval(this.autoPlayInterval);
-            this.autoPlayInterval = null;
-        }
-    }
-    
-    resumeAutoPlay() {
-        if (this.isAutoPlaying && !this.autoPlayInterval) {
-            this.startAutoPlay();
-        }
-    }
+  document.querySelectorAll('.btn-primary, .btn-outline').forEach(btn => {
+    btn.addEventListener('mousemove', (e) => {
+      const rect = btn.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width  / 2;
+      const y = e.clientY - rect.top  - rect.height / 2;
+      btn.style.transform = `translate(${x * 0.18}px, ${y * 0.18}px)`;
+    });
+    btn.addEventListener('mouseleave', () => {
+      btn.style.transform = '';
+    });
+  });
 }
 
-// Initialize carousel when DOM is loaded
+// ── ════════════════════════════════
+//    UTILITY: current year
+// ═══════════════════════════════════
+function setCurrentYear() {
+  const el = document.getElementById('current-year');
+  if (el) el.textContent = new Date().getFullYear();
+}
+
+// ── ════════════════════════════════
+//    SMOOTH SCROLL for all anchor links
+// ═══════════════════════════════════
+function initSmoothScroll() {
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', (e) => {
+      const href = a.getAttribute('href');
+      const target = document.querySelector(href);
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'start' });
+        history.pushState(null, '', href);
+      }
+    });
+  });
+}
+
+// ── ════════════════════════════════
+//    FLOATING NAV MENU
+// ═══════════════════════════════════
+function initFloatingNav() {
+  const container = document.querySelector('.floating-nav-container');
+  const toggleBtn = document.getElementById('floating-nav-toggle');
+  const menu = document.getElementById('floating-nav-menu');
+  const links = document.querySelectorAll('.floating-nav-link');
+  
+  if (!container || !toggleBtn || !menu) return;
+
+  // Show container after scrolling down OR if on mobile
+  function updateVisibility() {
+    if (window.scrollY > 300 || window.innerWidth <= 768) {
+      container.classList.add('visible');
+    } else {
+      container.classList.remove('visible');
+      // Auto-close menu if we scroll all the way up on desktop
+      if (window.scrollY === 0) {
+        closeMenu();
+      }
+    }
+  }
+
+  window.addEventListener('scroll', updateVisibility, { passive: true });
+  window.addEventListener('resize', updateVisibility, { passive: true });
+  // Check immediately on load
+  updateVisibility();
+
+  // Toggle menu visibility
+  toggleBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const isOpen = menu.classList.contains('open');
+    if (isOpen) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
+  });
+
+  // Close menu when a link is clicked
+  links.forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      closeMenu();
+      
+      const targetId = link.getAttribute('href');
+      const target = document.querySelector(targetId);
+      
+      if (target) {
+        target.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'start' });
+        history.replaceState(null, '', window.location.pathname + window.location.search);
+      }
+    });
+  });
+
+  // Close menu when clicking outside
+  document.addEventListener('click', (e) => {
+    if (menu.classList.contains('open') && !container.contains(e.target)) {
+      closeMenu();
+    }
+  });
+  
+  // Close menu on Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && menu.classList.contains('open')) {
+      closeMenu();
+    }
+  });
+
+  function openMenu() {
+    menu.classList.add('open');
+    toggleBtn.classList.add('active');
+    toggleBtn.setAttribute('aria-expanded', 'true');
+  }
+
+  function closeMenu() {
+    menu.classList.remove('open');
+    toggleBtn.classList.remove('active');
+    toggleBtn.setAttribute('aria-expanded', 'false');
+  }
+}
+
+// ── ════════════════════════════════
+//    INIT
+// ═══════════════════════════════════
 document.addEventListener('DOMContentLoaded', () => {
-    new AutoCarousel();
+  setCurrentYear();
+  initScrollProgress();
+  initNavbar();
+  initMobileMenu();
+  initReveal();
+  initCounters();
+  initTypewriter();
+  initCustomCursor();
+  initSkillsFilter();
+  initMagneticButtons();
+  initSmoothScroll();
+  initFloatingNav();
+
+  const cleanupParticles = initParticles();
+  const cleanupThreeJS   = initThreeJS();
+
+  window.addEventListener('beforeunload', () => {
+    cleanupParticles?.();
+    cleanupThreeJS?.();
+  });
 });
-
-
-

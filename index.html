@@ -1,599 +1,734 @@
 <!DOCTYPE html>
-<html lang="es" class="scroll-smooth">
+<html lang="es">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description"
-        content="Portafolio Web 3.0 de Yoiner TN - Desarrollador Frontend especializado en tecnologías modernas">
-    <title>Portfolio Web 3.0 | Yoiner TN</title>
-    <!-- Eliminamos Swiper ya que no se usa -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="css/styles.css">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap');
-        
-        /* CSS adicional para el carrusel */
-        .carousel-indicators {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-            margin-top: 20px;
-        }
-        
-        .indicator {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background-color: rgba(255, 255, 255, 0.3);
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .indicator.active {
-            background-color: #00d4ff;
-            transform: scale(1.2);
-        }
-        
-        .carousel-track {
-            display: flex;
-            transition: transform 0.5s ease;
-        }
-        
-        .carousel-slide {
-            flex: 0 0 100%;
-        }
-        
-        @media (min-width: 768px) {
-            .carousel-slide {
-                flex: 0 0 50%;
-            }
-        }
-        
-        @media (min-width: 1024px) {
-            .carousel-slide {
-                flex: 0 0 33.333%;
-            }
-        }
-        
-        /* Mejoras de accesibilidad */
-        .sr-only {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            white-space: nowrap;
-            border: 0;
-        }
-        
-        /* Mejoras de rendimiento */
-        .will-change-transform {
-            will-change: transform;
-        }
-        
-        /* Estados de focus mejorados */
-        .focus-visible:focus {
-            outline: 2px solid #00d4ff;
-            outline-offset: 2px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Yoiner TN — Desarrollador Frontend Junior especializado en React, Angular, TailwindCSS y experiencias web modernas.">
+  <meta property="og:title" content="Yoiner TN | Desarrollador Frontend">
+  <meta property="og:description" content="Portafolio profesional de Yoiner TN — interfaces modernas, animadas y futuristas.">
+  <meta property="og:type" content="website">
+  <title>Yoiner TN | Desarrollador Frontend</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/styles.css">
+
+  <!-- Tailwind (utility helpers) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      corePlugins: { preflight: false }
+    }
+  </script>
 </head>
 
-<body class="bg-gray-900 text-gray-100 antialiased">
-    <!-- Canvas para partículas -->
-    <canvas id="particles-canvas" class="fixed top-0 left-0 w-full h-full -z-10 pointer-events-none"
-        aria-hidden="true"></canvas>
+<body>
 
-    <!-- Navegación -->
-    <nav class="fixed top-0 w-full z-50 glass backdrop-blur-md border-b border-gray-800" aria-label="Navegación principal">
-        <div class="container mx-auto px-4 sm:px-6 py-3">
-            <div class="flex justify-between items-center">
-                <a href="#home"
-                    class="text-2xl font-bold neon-text font-['Orbitron'] hover:text-blue-400 transition-colors focus-visible">
-                    PORTAFOLIO
-                </a>
-                <div class="hidden md:flex space-x-6">
-                    <a href="#home" class="nav-item px-3 py-2 focus-visible">Inicio</a>
-                    <a href="#about" class="nav-item px-3 py-2 focus-visible">Sobre Mí</a>
-                    <a href="#skills" class="nav-item px-3 py-2 focus-visible">Skills</a>
-                    <a href="#projects" class="nav-item px-3 py-2 focus-visible">Proyectos</a>
-                    <a href="#contact" class="nav-item px-3 py-2 focus-visible">Contacto</a>
-                </div>
-                <button id="menu-toggle" class="md:hidden text-white focus:outline-none focus-visible" aria-label="Menú móvil"
-                    aria-expanded="false" aria-controls="mobile-menu">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M4 6h16M4 12h16M4 18h16"></path>
-                    </svg>
-                </button>
-            </div>
-        </div>
-    </nav>
+  <!-- Scroll Progress -->
+  <div id="scroll-progress"></div>
 
-    <!-- Menú móvil -->
-    <div id="mobile-menu" class="fixed top-16 left-0 w-full bg-gray-900/95 p-6 transform -translate-y-full transition-transform duration-300 z-40 hidden md:hidden" aria-hidden="true">
-        <nav class="flex flex-col space-y-4" aria-label="Navegación móvil">
-            <a href="#home" class="nav-item text-lg focus-visible">Inicio</a>
-            <a href="#about" class="nav-item text-lg focus-visible">Sobre Mí</a>
-            <a href="#skills" class="nav-item text-lg focus-visible">Skills</a>
-            <a href="#projects" class="nav-item text-lg focus-visible">Proyectos</a>
-            <a href="#contact" class="nav-item text-lg focus-visible">Contacto</a>
-        </nav>
+  <!-- Custom Cursor -->
+  <div id="cursor-outer"></div>
+  <div id="cursor-inner"></div>
+
+  <!-- Background Orbs -->
+  <div class="orb orb-1" aria-hidden="true"></div>
+  <div class="orb orb-2" aria-hidden="true"></div>
+  <div class="orb orb-3" aria-hidden="true"></div>
+
+  <!-- Canvas particles -->
+  <canvas id="particles-canvas" aria-hidden="true"></canvas>
+
+  <!-- ══════════════════════════════
+       NAVBAR
+  ══════════════════════════════ -->
+  <nav id="navbar" role="navigation" aria-label="Navegación principal">
+    <div class="container">
+      <div class="nav-inner">
+        <a href="#home" class="nav-logo">YTN<span style="color:var(--accent-2);">.</span></a>
+
+        <ul class="nav-links" role="list">
+          <li><a href="#home"       class="nav-link active">Inicio</a></li>
+          <li><a href="#about"      class="nav-link">Sobre Mí</a></li>
+          <li><a href="#skills"     class="nav-link">Skills</a></li>
+          <li><a href="#projects"   class="nav-link">Proyectos</a></li>
+          <li><a href="#ai-section" class="nav-link">IA</a></li>
+          <li><a href="#contact"    class="nav-link">Contacto</a></li>
+        </ul>
+
+        <a href="pdf/CV yoinertn .pdf" download="Yoiner-TN-CV.pdf" class="nav-cta hidden md:inline-flex items-center gap-2">
+          <i class="fas fa-download text-xs"></i> Descargar CV
+        </a>
+
+        <button id="nav-hamburger" aria-label="Menú" aria-expanded="false" aria-controls="mobile-menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
     </div>
+  </nav>
 
-    <!-- Sección Hero -->
-    <section id="home" class="snap-section min-h-screen flex items-center justify-center px-4 relative overflow-hidden" aria-labelledby="hero-heading">
-        <div class="container mx-auto flex flex-col md:flex-row items-center justify-center gap-12 z-10">
-            <div class="text-center md:text-left order-2 md:order-1">
-                <h1 id="hero-heading" class="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-6 neon-text font-['Orbitron']">
-                    Yoiner TN
-                </h1>
-                <p class="text-xl sm:text-2xl md:text-3xl mb-8 typewriter font-['Rajdhani']">
-                    Desarrollador Frontend Junior
-                </p>
-                <div class="flex flex-wrap justify-center md:justify-start gap-4">
-                    <a href="#projects" class="cyber-btn px-6 py-3 focus-visible">Ver Proyectos</a>
-                    <a href="pdf/CV yoinertn .pdf" download="Yoiner-TN-CV.pdf" class="cyber-btn px-6 py-3 focus-visible">Descargar CV</a>
-                </div>
-            </div>
-
-            <div class="order-1 md:order-2 relative">
-                <div class="relative w-48 h-48 md:w-64 md:h-64 rounded-full border-4 border-cyan-400 p-1 glow-shadow">
-                    <img src="img/yoiner.jpg" alt="Yoiner TN - Desarrollador Frontend"
-                        class="w-full h-full object-cover rounded-full border border-gray-800" loading="lazy">
-                    <div class="absolute -top-2 -left-2 w-4 h-4 rounded-full bg-cyan-500 animate-pulse"></div>
-                    <div class="absolute -bottom-2 -right-2 w-4 h-4 rounded-full bg-cyan-500 animate-pulse"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Efectos de fondo -->
-        <div class="absolute inset-0 overflow-hidden z-0" aria-hidden="true">
-            <div
-                class="absolute top-1/4 left-1/4 w-32 h-32 rounded-full bg-purple-500 opacity-20 blur-3xl animate-float">
-            </div>
-            <div
-                class="absolute bottom-1/4 right-1/4 w-32 h-32 rounded-full bg-cyan-500 opacity-20 blur-3xl animate-float-delay">
-            </div>
-        </div>
-
-        <!-- Geometría 3D -->
-        <div id="hero-3d" class="absolute inset-0 z-0" aria-hidden="true"></div>
-    </section>
-
-    <!-- Sobre Mí -->
-    <section id="about" class="snap-section py-20 relative" aria-labelledby="about-heading">
-        <div class="container mx-auto px-6">
-            <h2 id="about-heading" class="text-4xl sm:text-5xl font-bold text-center mb-12 neon-text font-['Orbitron']">
-                Sobre Mí
-            </h2>
-            <div class="grid md:grid-cols-2 gap-8 items-center">
-                <div class="glass neon-border p-6 sm:p-8 rounded-lg card-3d will-change-transform">
-                    <h3 class="text-2xl sm:text-3xl font-bold mb-4 text-blue-400">Innovación Digital</h3>
-                    <p class="text-lg leading-relaxed mb-4">
-                        Soy un desarrollador apasionado por las tecnologías emergentes y el diseño de experiencias
-                        digitales revolucionarias. Especializado en crear interfaces que no solo funcionan, sino que
-                        inspiran.
-                    </p>
-                    <p class="text-lg leading-relaxed">
-                        Mi enfoque combina la creatividad artística con la precisión técnica, creando soluciones que
-                        trascienden las expectativas convencionales.
-                    </p>
-                </div>
-
-                <div class="glass neon-tech-border p-6 sm:p-8 rounded-xl card-3d-hover will-change-transform">
-                    <div class="space-y-6">
-                        <!-- JavaScript -->
-                        <div class="skill-item group">
-                            <div class="flex justify-between items-center mb-1">
-                                <div class="flex items-center">
-                                    <svg class="w-5 h-5 mr-2 text-yellow-400" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                        <path
-                                            d="M0 0h24v24H0V0zm22.034 18.276c-.175-1.095-.888-2.015-3.003-2.873-.736-.345-1.554-.585-1.797-1.14-.091-.33-.105-.51-.046-.705.15-.646.915-.84 1.515-.66.39.12.75.42.976.9 1.034-.676 1.034-.676 1.755-1.125-.27-.42-.404-.601-.586-.78-.63-.705-1.469-1.065-2.834-1.034l-.705.089c-.676.165-1.32.525-1.71 1.005-1.14 1.291-.811 3.541.569 4.471 1.365 1.02 3.361 1.244 3.616 2.205.24 1.17-.87 1.545-1.966 1.41-.811-.18-1.26-.586-1.755-1.336l-1.83 1.051c.21.48.45.689.81 1.109 1.74 1.756 6.09 1.666 6.871-1.004.029-.09.24-.705.074-1.65l.046-.067zm-8.983-7.245h-2.248c0 1.938-.009 3.864-.009 5.805 0 1.232.063 2.363-.138 2.711-.33.689-1.18.601-1.566.48-.396-.196-.597-.466-.83-.855-.063-.105-.11-.196-.127-.196l-1.825 1.125c.305.63.75 1.172 1.324 1.517.855.51 2.004.675 3.207.405.783-.226 1.458-.691 1.811-1.411.51-.93.402-2.07.397-3.346.012-2.054 0-4.109 0-6.179l.004-.056z" />
-                                    </svg>
-                                    <span class="font-medium">JavaScript ES6+</span>
-                                </div>
-                            </div>
-                            <div class="bg-gray-800 rounded-full h-2.5">
-                                <div class="bg-gradient-to-r from-yellow-400 to-amber-500 rounded-full h-2.5 transition-all duration-1000 ease-out"
-                                    style="width: 92%"></div>
-                            </div>
-                        </div>
-
-                        <!-- CSS -->
-                        <div class="skill-item group">
-                            <div class="flex justify-between items-center mb-1">
-                                <div class="flex items-center">
-                                    <svg class="w-5 h-5 mr-2 text-blue-500" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                        <path
-                                            d="M1.5 0h21l-1.91 21.563L11.977 24l-8.565-2.438L1.5 0zm17.09 4.413L5.41 4.41l.213 2.622 10.125.002-.255 2.716h-6.64l.24 2.573h6.182l-.366 3.523-2.91.804-2.956-.81-.188-2.11h-2.61l.29 3.855L12 19.288l5.373-1.53L18.59 4.414z" />
-                                    </svg>
-                                    <span class="font-medium">CSS & Diseño Web</span>
-                                </div>
-                            </div>
-                            <div class="bg-gray-800 rounded-full h-2.5">
-                                <div class="bg-gradient-to-r from-blue-500 to-cyan-400 rounded-full h-2.5 transition-all duration-1000 ease-out"
-                                    style="width: 95%"></div>
-                            </div>
-                        </div>
-
-                        <!-- Frameworks -->
-                        <div class="skill-item group">
-                            <div class="flex justify-between items-center mb-1">
-                                <div class="flex items-center">
-                                    <svg class="w-5 h-5 mr-2 text-purple-500" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                        <path
-                                            d="M12 12.765h5.791a11.94 11.94 0 01-4.624 7.132l3.577 3.579c3.568-2.922 5.466-7.32 5.466-12.112C22.21 5.005 17.313.11 11.595.11.385.11-.403 11.485.142 12.294L6.69 18.84c1.36-1.362 2.484-2.924 5.31-6.075z" />
-                                    </svg>
-                                    <span class="font-medium">Frameworks Frontend</span>
-                                </div>
-                            </div>
-                            <div class="bg-gray-800 rounded-full h-2.5">
-                                <div class="bg-gradient-to-r from-purple-500 to-pink-500 rounded-full h-2.5 transition-all duration-1000 ease-out"
-                                    style="width: 88%"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Skills -->
-  <section id="skills" class="mt-20 text-center">
-  <h2 class="text-5xl font-bold neon-text mb-10">Tecnologías</h2>
-
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 px-6">
-
-    <!-- HTML5 -->
-    <div class="card-3d p-6 rounded-xl border border-cyan-500/30 bg-white/5 backdrop-blur-md">
-      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" 
-           class="w-20 mx-auto mb-4" alt="HTML5">
-      <p class="text-xl font-semibold">HTML5</p>
-    </div>
-
-    <!-- CSS3 -->
-    <div class="card-3d p-6 rounded-xl border border-cyan-500/30 bg-white/5 backdrop-blur-md">
-      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" 
-           class="w-20 mx-auto mb-4" alt="CSS3">
-      <p class="text-xl font-semibold">CSS3</p>
-    </div>
-
-    <!-- JavaScript -->
-    <div class="card-3d p-6 rounded-xl border border-cyan-500/30 bg-white/5 backdrop-blur-md">
-      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" 
-           class="w-20 mx-auto mb-4" alt="JavaScript">
-      <p class="text-xl font-semibold">JavaScript</p>
-    </div>
-
-    <!-- Tailwind -->
-    <div class="card-3d p-6 rounded-xl border border-cyan-500/30 bg-white/5 backdrop-blur-md">
-      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg" 
-           class="w-20 mx-auto mb-4" alt="TailwindCSS">
-      <p class="text-xl font-semibold">Tailwind</p>
-    </div>
-
-    <!-- Bootstrap -->
-    <div class="card-3d p-6 rounded-xl border border-cyan-500/30 bg-white/5 backdrop-blur-md">
-      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-original.svg" 
-           class="w-20 mx-auto mb-4" alt="Bootstrap">
-      <p class="text-xl font-semibold">Bootstrap</p>
-    </div>
-
-    <!-- Angular (reemplaza SQL) -->
-    <div class="card-3d p-6 rounded-xl border border-cyan-500/30 bg-white/5 backdrop-blur-md">
-      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/angular/angular-original.svg" 
-           class="w-20 mx-auto mb-4" alt="Angular">
-      <p class="text-xl font-semibold">Angular</p>
-    </div>
-
-    <!-- React -->
-    <div class="card-3d p-6 rounded-xl border border-cyan-500/30 bg-white/5 backdrop-blur-md">
-      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" 
-           class="w-20 mx-auto mb-4" alt="React">
-      <p class="text-xl font-semibold">React</p>
-    </div>
-
-    <!-- Inteligencia Artificial -->
-    <div class="card-3d p-6 rounded-xl border border-cyan-500/30 bg-white/5 backdrop-blur-md">
-      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tensorflow/tensorflow-original.svg" 
-           class="w-20 mx-auto mb-4" alt="Inteligencia Artificial">
-      <p class="text-xl font-semibold">Inteligencia Artificial</p>
-    </div>
-
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" role="menu" aria-hidden="true">
+    <a href="#home"       class="nav-link" role="menuitem">Inicio</a>
+    <a href="#about"      class="nav-link" role="menuitem">Sobre Mí</a>
+    <a href="#skills"     class="nav-link" role="menuitem">Skills</a>
+    <a href="#projects"   class="nav-link" role="menuitem">Proyectos</a>
+    <a href="#ai-section" class="nav-link" role="menuitem">IA</a>
+    <a href="#contact"    class="nav-link" role="menuitem">Contacto</a>
+    <a href="pdf/CV yoinertn .pdf" download="Yoiner-TN-CV.pdf" class="btn-primary mt-2" style="display:inline-flex; justify-content:center">
+      <i class="fas fa-download"></i> <span>Descargar CV</span>
+    </a>
   </div>
-</section>
 
-    <!-- Proyectos -->
-    <section id="projects" class="snap-section py-20" aria-labelledby="projects-heading">
-        <div class="container mx-auto px-6">
-            <h2 id="projects-heading" class="text-4xl sm:text-5xl font-bold text-center mb-12 neon-text font-['Orbitron'] fade-in">
-                Proyectos
-            </h2>
+  <!-- ══════════════════════════════
+       HERO
+  ══════════════════════════════ -->
+  <section id="home" aria-labelledby="hero-heading">
+    <div id="hero-3d" aria-hidden="true"></div>
+    <div class="container" style="position:relative; z-index:2;">
+      <div class="hero-content">
 
-            <!-- Carrusel -->
-            <div class="relative group" role="region" aria-label="Carrusel de proyectos">
-                <!-- Contenedor del carrusel -->
-                <div class="carousel-container relative overflow-hidden h-[550px]">
-                    <!-- Pista del carrusel -->
-                    <div id="carousel-track"
-                        class="carousel-track flex transition-transform duration-700 ease-in-out h-full">
-                          <!-- Proyecto 1 -->
-                        <div class="carousel-slide min-w-full md:min-w-[50%] lg:min-w-[33.333%] px-3 h-full">
-                            <div
-                                class="project-card glass neon-border rounded-lg overflow-hidden card-3d h-full flex flex-col will-change-transform">
-                                <div class="h-48 relative flex-shrink-0 overflow-hidden">
-                                    <img src="img/sistem.png" alt="Landing Page 1 - SolPro 24/7"
-                                        class="project-image w-full h-full object-cover">
-                                </div>
-                                <div class="p-6 flex-grow flex flex-col">
-                                    <h3 class="text-xl font-bold mb-3 text-blue-400">SISTEMA INVENTARIO</h3>
-                                    <p class="text-gray-300 mb-4 flex-grow">sistema de inventario Web con React y TailwindCSS </p>
-                                    <div class="flex flex-wrap gap-2 mb-4">
-                                        <span class="bg-blue-900/50 text-blue-300 px-2 py-1 rounded text-xs sm:text-sm">HTML</span>
-                                        <span class="bg-blue-900/50 text-blue-300 px-2 py-1 rounded text-xs sm:text-sm">CSS</span>
-                                        <span class="bg-blue-900/50 text-blue-300 px-2 py-1 rounded text-xs sm:text-sm">JavaScript</span>
-                                        <span class="bg-blue-900/50 text-blue-300 px-2 py-1 rounded text-xs sm:text-sm">TailwindCSS</span>
-                                        <span class="bg-blue-900/50 text-blue-300 px-2 py-1 rounded text-xs sm:text-sm">React</span>
-                                    </div>
-                                    <div class="flex gap-3 mt-auto">
-                                        <a href="https://github.com/yoinertovar/SISTEMAIVENTARIO.git"
-                                            class="btn-repo flex-1 text-center py-2 px-4 bg-gray-800 hover:bg-gray-700 text-white rounded-lg transition-colors focus-visible">
-                                            <i class="fas fa-code mr-2" aria-hidden="true"></i> Repositorio
-                                        </a>
-                                        <a href="https://softwok.netlify.app/login"
-                                            class="btn-demo flex-1 text-center py-2 px-4 bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors focus-visible">
-                                            <i class="fas fa-external-link-alt mr-2" aria-hidden="true"></i> Demo
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+        <!-- Text Side -->
+        <div>
+          <div class="hero-badge reveal">
+            <span class="badge-dot"></span>
+            Disponible para trabajar
+          </div>
 
-                        <!-- Proyecto 2 -->
-                        <div class="carousel-slide min-w-full md:min-w-[50%] lg:min-w-[33.333%] px-3 h-full">
-                            <div
-                                class="project-card glass neon-border rounded-lg overflow-hidden card-3d h-full flex flex-col will-change-transform">
-                                <div class="h-48 relative flex-shrink-0 overflow-hidden">
-                                    <img src="img/page 1.png" alt="Landing Page 1 - SolPro 24/7"
-                                        class="project-image w-full h-full object-cover">
-                                </div>
-                                <div class="p-6 flex-grow flex flex-col">
-                                    <h3 class="text-xl font-bold mb-3 text-blue-400">Landing Page 1</h3>
-                                    <p class="text-gray-300 mb-4 flex-grow">Página diseñada para comunicar de manera efectiva la oferta de servicios de SolPro 24/7, destacando su disponibilidad continua, variedad de servicios y experiencia en proyectos residenciales.</p>
-                                    <div class="flex flex-wrap gap-2 mb-4">
-                                        <span class="bg-blue-900/50 text-blue-300 px-2 py-1 rounded text-xs sm:text-sm">HTML</span>
-                                        <span class="bg-blue-900/50 text-blue-300 px-2 py-1 rounded text-xs sm:text-sm">CSS</span>
-                                        <span class="bg-blue-900/50 text-blue-300 px-2 py-1 rounded text-xs sm:text-sm">JavaScript</span>
-                                        <span class="bg-blue-900/50 text-blue-300 px-2 py-1 rounded text-xs sm:text-sm">TailwindCSS</span>
-                                    </div>
-                                    <div class="flex gap-3 mt-auto">
-                                        <a href="https://github.com/yoinertovar/SOLPRO24-7.git"
-                                            class="btn-repo flex-1 text-center py-2 px-4 bg-gray-800 hover:bg-gray-700 text-white rounded-lg transition-colors focus-visible">
-                                            <i class="fas fa-code mr-2" aria-hidden="true"></i> Repositorio
-                                        </a>
-                                        <a href="https://construcaa.netlify.app/"
-                                            class="btn-demo flex-1 text-center py-2 px-4 bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors focus-visible">
-                                            <i class="fas fa-external-link-alt mr-2" aria-hidden="true"></i> Demo
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+          <h1 id="hero-heading" class="hero-name reveal reveal-delay-1">
+            <span class="gradient-text">Yoiner</span><br>Tovar N.
+          </h1>
 
-                        <!-- Proyecto 3 -->
-                        <div class="carousel-slide min-w-full md:min-w-[50%] lg:min-w-[33.333%] px-3 h-full">
-                            <div
-                                class="project-card glass neon-border rounded-lg overflow-hidden card-3d h-full flex flex-col will-change-transform">
-                                <div class="h-48 relative flex-shrink-0 overflow-hidden">
-                                    <img src="img/LOGIN.png" alt="Sistema de Login"
-                                        class="project-image w-full h-full object-cover">
-                                </div>
-                                <div class="p-6 flex-grow flex flex-col">
-                                    <h3 class="text-xl font-bold mb-3 text-blue-400">Sistema de Login</h3>
-                                    <p class="text-gray-300 mb-4 flex-grow">Interfaz de inicio de sesión con diseño moderno y fondo oscuro, que permite al usuario acceder mediante correo y contraseña, incluye opción de recordar sesión, recuperación de contraseña y acceso con redes sociales.</p>
-                                    <div class="flex flex-wrap gap-2 mb-4">
-                                        <span class="bg-blue-900/50 text-blue-300 px-2 py-1 rounded text-xs sm:text-sm">HTML</span>
-                                        <span class="bg-blue-900/50 text-blue-300 px-2 py-1 rounded text-xs sm:text-sm">CSS3</span>
-                                    </div>
-                                    <div class="flex gap-3 mt-auto">
-                                        <a href="https://github.com/yoinertovar/LOGIN.git"
-                                            class="btn-repo flex-1 text-center py-2 px-4 bg-gray-800 hover:bg-gray-700 text-white rounded-lg transition-colors focus-visible">
-                                            <i class="fas fa-code mr-2" aria-hidden="true"></i> Repositorio
-                                        </a>
-                                        <a href="https://login30ydtn.netlify.app/"
-                                            class="btn-demo flex-1 text-center py-2 px-4 bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors focus-visible">
-                                            <i class="fas fa-external-link-alt mr-2" aria-hidden="true"></i> Demo
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+          <p class="hero-title reveal reveal-delay-2">
+            <span id="typewriter-target">Desarrollador Frontend</span><span class="cursor-blink"></span>
+          </p>
 
-                        <!-- Proyecto 4 -->
-                        <div class="carousel-slide min-w-full md:min-w-[50%] lg:min-w-[33.333%] px-3 h-full">
-                            <div
-                                class="project-card glass neon-border rounded-lg overflow-hidden card-3d h-full flex flex-col will-change-transform">
-                                <div class="h-48 relative flex-shrink-0 overflow-hidden">
-                                    <img src="img/LANDING2.png" alt="Landing Page 2 - Servicios Holísticos"
-                                        class="project-image w-full h-full object-cover">
-                                </div>
-                                <div class="p-6 flex-grow flex flex-col">
-                                    <h3 class="text-xl font-bold mb-3 text-blue-400">Landing Page 2</h3>
-                                    <p class="text-gray-300 mb-4 flex-grow">Landing page estática desarrollada para promocionar y facilitar la reserva de servicios holísticos. Implementa prácticas comunes en desarrollo web frontend como diseño responsivo y navegación por secciones.</p>
-                                    <div class="flex flex-wrap gap-2 mb-4">
-                                        <span class="bg-blue-900/50 text-blue-300 px-2 py-1 rounded text-xs sm:text-sm">JavaScript</span>
-                                        <span class="bg-blue-900/50 text-blue-300 px-2 py-1 rounded text-xs sm:text-sm">Framer Motion</span>
-                                        <span class="bg-blue-900/50 text-blue-300 px-2 py-1 rounded text-xs sm:text-sm">HTML</span>
-                                    </div>
-                                    <div class="flex gap-3 mt-auto">
-                                        <a href="https://github.com/yoinertovar/LANDINGPAGE2.git"
-                                            class="btn-repo flex-1 text-center py-2 px-4 bg-gray-800 hover:bg-gray-700 text-white rounded-lg transition-colors focus-visible">
-                                            <i class="fas fa-code mr-2" aria-hidden="true"></i> Repositorio
-                                        </a>
-                                        <a href="https://landinpage2.netlify.app/"
-                                            class="btn-demo flex-1 text-center py-2 px-4 bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors focus-visible">
-                                            <i class="fas fa-external-link-alt mr-2" aria-hidden="true"></i> Demo
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+          <p class="hero-desc reveal reveal-delay-3">
+            Construyo interfaces modernas, animadas y de alto impacto visual.
+            Apasionado por el detalle, la experiencia de usuario y las tecnologías emergentes.
+          </p>
 
-                        <!-- Proyecto 6 -->
-                        <div class="carousel-slide min-w-full md:min-w-[50%] lg:min-w-[33.333%] px-3 h-full">
-                            <div
-                                class="project-card glass neon-border rounded-lg overflow-hidden card-3d h-full flex flex-col will-change-transform">
-                                <div class="h-48 relative flex-shrink-0 overflow-hidden">
-                                    <img src="img/portafolio.png" alt="Portafolio Web 3.0"
-                                        class="project-image w-full h-full object-cover">
-                                </div>
-                                <div class="p-6 flex-grow flex flex-col">
-                                    <h3 class="text-xl font-bold mb-3 text-blue-400">Portafolio 3.0</h3>
-                                    <p class="text-gray-300 mb-4 flex-grow">Mi portafolio personal desarrollado con tecnologías modernas como JavaScript, HTML, TailwindCSS e integración con IA para una experiencia web innovadora y futurista.</p>
-                                    <div class="flex flex-wrap gap-2 mb-4">
-                                        <span class="bg-blue-900/50 text-blue-300 px-2 py-1 rounded text-xs sm:text-sm">TailwindCSS</span>
-                                        <span class="bg-blue-900/50 text-blue-300 px-2 py-1 rounded text-xs sm:text-sm">HTML</span>
-                                        <span class="bg-blue-900/50 text-blue-300 px-2 py-1 rounded text-xs sm:text-sm">JavaScript</span>
-                                        <span class="bg-blue-900/50 text-blue-300 px-2 py-1 rounded text-xs sm:text-sm">IA</span>
-                                    </div>
-                                    <div class="flex gap-3 mt-auto">
-                                        <a href="https://github.com/yoinertovar/PORTAFOLIO.git"
-                                            class="btn-repo flex-1 text-center py-2 px-4 bg-gray-800 hover:bg-gray-700 text-white rounded-lg transition-colors focus-visible">
-                                            <i class="fas fa-code mr-2" aria-hidden="true"></i> Repositorio
-                                        </a>
-                                        <a href="#"
-                                            class="btn-demo flex-1 text-center py-2 px-4 bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors focus-visible">
-                                            <i class="fas fa-external-link-alt mr-2" aria-hidden="true"></i> Demo
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+          <div class="hero-actions reveal reveal-delay-3">
+            <a href="#projects" class="btn-primary">
+              <i class="fas fa-rocket"></i>
+              <span>Ver Proyectos</span>
+            </a>
+            <a href="#contact" class="btn-outline">
+              <i class="fas fa-paper-plane"></i>
+              Contáctame
+            </a>
+          </div>
 
-                <!-- Indicadores -->
-                <div class="carousel-indicators" id="indicators" role="tablist" aria-label="Seleccionar proyecto"></div>
-
-                <!-- Controles de navegación -->
-                <button id="prevBtn"
-                    class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-blue-600/20 hover:bg-blue-600/40 text-blue-300 p-3 rounded-full transition-all duration-300 opacity-0 group-hover:opacity-100 focus-visible"
-                    aria-label="Proyecto anterior">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7">
-                        </path>
-                    </svg>
-                </button>
-                <button id="nextBtn"
-                    class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-blue-600/20 hover:bg-blue-600/40 text-blue-300 p-3 rounded-full transition-all duration-300 opacity-0 group-hover:opacity-100 focus-visible"
-                    aria-label="Proyecto siguiente">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                    </svg>
-                </button>
+          <div class="hero-stats reveal reveal-delay-4">
+            <div class="stat-item">
+              <div class="stat-number" data-count="5">0</div>
+              <div class="stat-label">Proyectos</div>
             </div>
-        </div>
-    </section>
-
-    <!-- Contacto -->
-    <section id="contact" class="snap-section py-20" aria-labelledby="contact-heading">
-        <div class="container mx-auto px-6">
-            <h2 id="contact-heading" class="text-4xl sm:text-5xl font-bold text-center mb-12 neon-text font-['Orbitron']">
-                Contacto
-            </h2>
-            <div class="max-w-4xl mx-auto">
-                <div class="glass neon-border p-6 sm:p-8 rounded-lg card-3d will-change-transform">
-                    <h3 class="text-2xl font-bold mb-6 text-blue-400">Conectemos</h3>
-                    <div class="space-y-4">
-                        <!-- WhatsApp -->
-                        <a href="https://wa.me/+573017260118" target="_blank" rel="noopener noreferrer"
-                            class="flex items-center gap-4 group hover:bg-gray-800/30 p-3 rounded-lg transition-all duration-300 focus-visible">
-                            <div
-                                class="w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center group-hover:bg-green-500 transition-all shrink-0">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor"
-                                    viewBox="0 0 24 24" aria-hidden="true">
-                                    <path
-                                        d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.479 5.392 1.479 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z" />
-                                </svg>
-                            </div>
-                            <div>
-                                <p class="font-semibold">WhatsApp</p>
-                                <p class="text-gray-300 text-sm">+57 301 7260118</p>
-                            </div>
-                        </a>
-
-                        <!-- Email -->
-                        <a href="mailto:yoinertnwork@gmail.com"
-                            class="flex items-center gap-4 group hover:bg-gray-800/30 p-3 rounded-lg transition-all duration-300 focus-visible">
-                            <div
-                                class="w-12 h-12 bg-red-600 rounded-lg flex items-center justify-center group-hover:bg-red-500 transition-all shrink-0">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24"
-                                    fill="currentColor" aria-hidden="true">
-                                    <path
-                                        d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 2.28 24 3.434 24 5.457z" />
-                                </svg>
-                            </div>
-                            <div>
-                                <p class="font-semibold">Email</p>
-                                <p class="text-gray-300 text-sm">yoinertnwork@gmail.com</p>
-                            </div>
-                        </a>
-
-                        <!-- LinkedIn -->
-                        <a href="https://www.linkedin.com/in/yoiner-tovar/" target="_blank" rel="noopener noreferrer"
-                            class="flex items-center gap-4 group hover:bg-gray-800/30 p-3 rounded-lg transition-all duration-300 focus-visible">
-                            <div
-                                class="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center group-hover:bg-blue-500 transition-all shrink-0">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor"
-                                    viewBox="0 0 24 24" aria-hidden="true">
-                                    <path
-                                        d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
-                                </svg>
-                            </div>
-                            <div>
-                                <p class="font-semibold">LinkedIn</p>
-                                <p class="text-gray-300 text-sm">linkedin.com/in/yoiner-tovar</p>
-                            </div>
-                        </a>
-
-                        <!-- GitHub -->
-                        <a href="https://github.com/yoinertovar" target="_blank" rel="noopener noreferrer"
-                            class="flex items-center gap-4 group hover:bg-gray-800/30 p-3 rounded-lg transition-all duration-300 focus-visible">
-                            <div
-                                class="w-12 h-12 bg-gray-800 rounded-lg flex items-center justify-center group-hover:bg-gray-700 transition-all shrink-0">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor"
-                                    viewBox="0 0 24 24" aria-hidden="true">
-                                    <path
-                                        d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.313-1.807-1.313-1.807-1.073-.732.083-.718.083-.718 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
-                                </svg>
-                            </div>
-                            <div>
-                                <p class="font-semibold">GitHub</p>
-                                <p class="text-gray-300 text-sm">github.com/yoinertovar</p>
-                            </div>
-                        </a>
-                    </div>
-                </div>
+            <div class="stat-item">
+              <div class="stat-number" data-count="8">0</div>
+              <div class="stat-label">Tecnologías</div>
             </div>
+            <div class="stat-item">
+              <div class="stat-number" data-count="1" data-suffix="+">0</div>
+              <div class="stat-label">Año exp.</div>
+            </div>
+          </div>
         </div>
-    </section>
 
-    <!-- Footer -->
-    <footer class="py-6 border-t border-gray-800 mt-20">
-        <div class="container mx-auto px-6 text-center">
-            <p class="text-gray-400 text-sm">&copy; <span id="current-year">2025</span> Web3 Portfolio. Yoiner Tovar.
-            </p>
+        <!-- Avatar Side -->
+        <div class="hero-avatar-wrap reveal reveal-delay-2">
+          <div class="hero-avatar-ring" aria-hidden="true"></div>
+          <div class="hero-avatar-ring-mask" aria-hidden="true"></div>
+          <div class="hero-avatar">
+            <img src="img/yoiner.jpg" alt="Yoiner TN — Desarrollador Frontend" loading="eager">
+          </div>
+          <div class="hero-avatar-badge">Frontend Dev</div>
+
+          <!-- Floating pills (visible on large screens) -->
+          <div class="hero-pills" aria-hidden="true">
+            <div class="tech-pill">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="">
+              React
+            </div>
+            <div class="tech-pill">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg" alt="">
+              Tailwind
+            </div>
+            <div class="tech-pill">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="">
+              JS ES6+
+            </div>
+          </div>
         </div>
-    </footer>
 
-    <!-- Scripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="js/main.js"></script>
+      </div>
+    </div>
+
+    <div class="scroll-indicator" aria-hidden="true">Scroll</div>
+  </section>
+
+  <!-- ══════════════════════════════
+       SOBRE MÍ
+  ══════════════════════════════ -->
+  <section id="about" aria-labelledby="about-heading">
+    <div class="container">
+
+      <div class="about-grid">
+        <!-- Image -->
+        <div class="about-image-wrap reveal">
+          <div class="about-image-frame glass-card" style="border-radius: var(--radius-xl);">
+            <div class="overlay-gradient" aria-hidden="true"></div>
+            <img src="img/yoiner.jpg" alt="Yoiner TN">
+          </div>
+          <div class="about-card-float glass-card">
+            <div class="card-stat">+5</div>
+            <div class="card-label">Proyectos completados</div>
+          </div>
+        </div>
+
+        <!-- Text -->
+        <div class="about-text">
+          <div class="section-label reveal">Sobre mí</div>
+          <h2 id="about-heading" class="section-title reveal reveal-delay-1">
+            Construyo el<br><span class="gradient-text">futuro digital</span>
+          </h2>
+
+          <div class="about-tags reveal reveal-delay-2">
+            <span class="tag">Frontend Dev</span>
+            <span class="tag cyan">UI/UX Enthusiast</span>
+            <span class="tag">Problem Solver</span>
+            <span class="tag cyan">Open to Work</span>
+          </div>
+
+          <p class="reveal reveal-delay-2" style="color:var(--text-secondary); line-height:1.8; margin-bottom:1.5rem;">
+            Soy un desarrollador frontend con pasión por crear experiencias digitales que combinan
+            estética moderna con funcionalidad sólida. Me especializo en construir interfaces
+            limpias, responsivas y visualmente impactantes.
+          </p>
+          <p class="reveal reveal-delay-2" style="color:var(--text-secondary); line-height:1.8; margin-bottom:2rem;">
+            Constantemente explorando nuevas tecnologías — desde frameworks modernos hasta
+            la integración de inteligencia artificial en proyectos web.
+          </p>
+
+          <div class="about-info-list reveal reveal-delay-3">
+            <div class="info-item">
+              <div class="info-icon"><i class="fas fa-map-marker-alt"></i></div>
+              <div class="info-text">
+                <p>Ubicación</p>
+                <strong>Colombia 🇨🇴</strong>
+              </div>
+            </div>
+            <div class="info-item">
+              <div class="info-icon"><i class="fas fa-graduation-cap"></i></div>
+              <div class="info-text">
+                <p>Perfil</p>
+                <strong>Desarrollador Frontend Junior</strong>
+              </div>
+            </div>
+            <div class="info-item">
+              <div class="info-icon"><i class="fas fa-language"></i></div>
+              <div class="info-text">
+                <p>Idiomas</p>
+                <strong>Español (Nativo) · Inglés (Básico)</strong>
+              </div>
+            </div>
+          </div>
+
+          <div class="reveal reveal-delay-4">
+            <a href="pdf/CV yoinertn .pdf" download="Yoiner-TN-CV.pdf" class="btn-primary" style="display:inline-flex;">
+              <i class="fas fa-download"></i>
+              <span>Descargar CV</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════
+       SKILLS / TECNOLOGÍAS
+  ══════════════════════════════ -->
+  <section id="skills" aria-labelledby="skills-heading">
+    <div class="container">
+      <div style="text-align:center; margin-bottom:1rem;">
+        <div class="section-label reveal" style="justify-content:center;">Stack Técnico</div>
+        <h2 id="skills-heading" class="section-title reveal reveal-delay-1">Mis <span class="gradient-text">Tecnologías</span></h2>
+        <p class="section-desc reveal reveal-delay-2" style="margin:0 auto 2.5rem;">Herramientas y frameworks con los que trabajo día a día para construir experiencias web de alto nivel.</p>
+      </div>
+
+      <div class="skills-categories reveal reveal-delay-2" style="justify-content:center;">
+        <button class="skill-cat-btn active" data-filter="all">Todos</button>
+        <button class="skill-cat-btn" data-filter="frontend">Frontend</button>
+        <button class="skill-cat-btn" data-filter="framework">Frameworks</button>
+        <button class="skill-cat-btn" data-filter="tool">Herramientas</button>
+      </div>
+
+      <div class="skills-grid">
+
+        <!-- HTML5 -->
+        <div class="skill-card glass-card reveal" data-category="frontend">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML5" loading="lazy">
+          <p>HTML5</p>
+          <div class="skill-level">
+            <span class="level-dot filled"></span><span class="level-dot filled"></span>
+            <span class="level-dot filled"></span><span class="level-dot filled"></span><span class="level-dot filled"></span>
+          </div>
+        </div>
+
+        <!-- CSS3 -->
+        <div class="skill-card glass-card reveal reveal-delay-1" data-category="frontend">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS3" loading="lazy">
+          <p>CSS3</p>
+          <div class="skill-level">
+            <span class="level-dot filled"></span><span class="level-dot filled"></span>
+            <span class="level-dot filled"></span><span class="level-dot filled"></span><span class="level-dot"></span>
+          </div>
+        </div>
+
+        <!-- JavaScript -->
+        <div class="skill-card glass-card reveal reveal-delay-2" data-category="frontend">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JavaScript" loading="lazy">
+          <p>JavaScript</p>
+          <div class="skill-level">
+            <span class="level-dot filled"></span><span class="level-dot filled"></span>
+            <span class="level-dot filled"></span><span class="level-dot filled"></span><span class="level-dot"></span>
+          </div>
+        </div>
+
+        <!-- React -->
+        <div class="skill-card glass-card reveal reveal-delay-3" data-category="framework">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React" loading="lazy">
+          <p>React</p>
+          <div class="skill-level">
+            <span class="level-dot filled"></span><span class="level-dot filled"></span>
+            <span class="level-dot filled"></span><span class="level-dot"></span><span class="level-dot"></span>
+          </div>
+        </div>
+
+        <!-- Angular -->
+        <div class="skill-card glass-card reveal reveal-delay-4" data-category="framework">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/angular/angular-original.svg" alt="Angular" loading="lazy">
+          <p>Angular</p>
+          <div class="skill-level">
+            <span class="level-dot filled"></span><span class="level-dot filled"></span>
+            <span class="level-dot filled"></span><span class="level-dot"></span><span class="level-dot"></span>
+          </div>
+        </div>
+
+        <!-- TailwindCSS -->
+        <div class="skill-card glass-card reveal reveal-delay-1" data-category="framework">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg" alt="TailwindCSS" loading="lazy">
+          <p>Tailwind</p>
+          <div class="skill-level">
+            <span class="level-dot filled"></span><span class="level-dot filled"></span>
+            <span class="level-dot filled"></span><span class="level-dot filled"></span><span class="level-dot"></span>
+          </div>
+        </div>
+
+        <!-- Bootstrap -->
+        <div class="skill-card glass-card reveal reveal-delay-2" data-category="framework">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-original.svg" alt="Bootstrap" loading="lazy">
+          <p>Bootstrap</p>
+          <div class="skill-level">
+            <span class="level-dot filled"></span><span class="level-dot filled"></span>
+            <span class="level-dot filled"></span><span class="level-dot filled"></span><span class="level-dot"></span>
+          </div>
+        </div>
+
+        <!-- Git -->
+        <div class="skill-card glass-card reveal reveal-delay-3" data-category="tool">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="Git" loading="lazy">
+          <p>Git</p>
+          <div class="skill-level">
+            <span class="level-dot filled"></span><span class="level-dot filled"></span>
+            <span class="level-dot filled"></span><span class="level-dot"></span><span class="level-dot"></span>
+          </div>
+        </div>
+
+        <!-- GitHub -->
+        <div class="skill-card glass-card reveal reveal-delay-4" data-category="tool">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" style="filter:invert(1);" loading="lazy">
+          <p>GitHub</p>
+          <div class="skill-level">
+            <span class="level-dot filled"></span><span class="level-dot filled"></span>
+            <span class="level-dot filled"></span><span class="level-dot"></span><span class="level-dot"></span>
+          </div>
+        </div>
+
+        <!-- SQL -->
+        <div class="skill-card glass-card reveal reveal-delay-1" data-category="tool">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="SQL" loading="lazy">
+          <p>SQL</p>
+          <div class="skill-level">
+            <span class="level-dot filled"></span><span class="level-dot filled"></span>
+            <span class="level-dot"></span><span class="level-dot"></span><span class="level-dot"></span>
+          </div>
+        </div>
+
+        <!-- Figma -->
+        <div class="skill-card glass-card reveal reveal-delay-2" data-category="tool">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg" alt="Figma" loading="lazy">
+          <p>Figma</p>
+          <div class="skill-level">
+            <span class="level-dot filled"></span><span class="level-dot filled"></span>
+            <span class="level-dot filled"></span><span class="level-dot"></span><span class="level-dot"></span>
+          </div>
+        </div>
+
+        <!-- VS Code -->
+        <div class="skill-card glass-card reveal reveal-delay-3" data-category="tool">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg" alt="VS Code" loading="lazy">
+          <p>VS Code</p>
+          <div class="skill-level">
+            <span class="level-dot filled"></span><span class="level-dot filled"></span>
+            <span class="level-dot filled"></span><span class="level-dot filled"></span><span class="level-dot filled"></span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════
+       PROYECTOS
+  ══════════════════════════════ -->
+  <section id="projects" aria-labelledby="projects-heading">
+    <div class="container">
+      <div class="section-label reveal">Proyectos</div>
+      <h2 id="projects-heading" class="section-title reveal reveal-delay-1">Trabajo <span class="gradient-text">Destacado</span></h2>
+      <p class="section-desc reveal reveal-delay-2">Una selección de mis proyectos más relevantes, construidos con las últimas tecnologías y buenas prácticas de desarrollo.</p>
+
+      <div class="projects-grid">
+
+        <!-- Proyecto 1 — Sistema Inventario -->
+        <article class="project-card glass-card reveal">
+          <div class="project-image">
+            <img src="img/sistem.png" alt="Sistema de Inventario" loading="lazy">
+            <div class="project-badge featured">Destacado</div>
+            <div class="project-overlay">
+              <a href="https://github.com/yoinertovar/SISTEMAIVENTARIO.git" target="_blank" rel="noopener">
+                <i class="fab fa-github"></i> Código
+              </a>
+              <a href="https://softwok.netlify.app/login" target="_blank" rel="noopener">
+                <i class="fas fa-external-link-alt"></i> Demo
+              </a>
+            </div>
+          </div>
+          <div class="project-body">
+            <h3>Sistema de Inventario</h3>
+            <p>Sistema web completo para gestión de inventario con autenticación, dashboard y reportes en tiempo real.</p>
+            <div class="project-tags">
+              <span class="project-tag">React</span>
+              <span class="project-tag">TailwindCSS</span>
+              <span class="project-tag">JavaScript</span>
+            </div>
+            <div class="project-links">
+              <a href="https://github.com/yoinertovar/SISTEMAIVENTARIO.git" target="_blank" rel="noopener" class="project-link repo">
+                <i class="fab fa-github"></i> Repositorio
+              </a>
+              <a href="https://softwok.netlify.app/login" target="_blank" rel="noopener" class="project-link demo">
+                <i class="fas fa-external-link-alt"></i> Ver Demo
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Proyecto 2 — Landing SolPro -->
+        <article class="project-card glass-card reveal reveal-delay-1">
+          <div class="project-image">
+            <img src="img/page 1.png" alt="Landing Page SolPro 24/7" loading="lazy">
+            <div class="project-badge new">Nuevo</div>
+            <div class="project-overlay">
+              <a href="https://github.com/yoinertovar/SOLPRO24-7.git" target="_blank" rel="noopener">
+                <i class="fab fa-github"></i> Código
+              </a>
+              <a href="https://construcaa.netlify.app/" target="_blank" rel="noopener">
+                <i class="fas fa-external-link-alt"></i> Demo
+              </a>
+            </div>
+          </div>
+          <div class="project-body">
+            <h3>Landing Page — SolPro 24/7</h3>
+            <p>Página de servicios profesionales con diseño responsivo, secciones de servicios y formulario de contacto.</p>
+            <div class="project-tags">
+              <span class="project-tag">HTML5</span>
+              <span class="project-tag">CSS3</span>
+              <span class="project-tag">TailwindCSS</span>
+            </div>
+            <div class="project-links">
+              <a href="https://github.com/yoinertovar/SOLPRO24-7.git" target="_blank" rel="noopener" class="project-link repo">
+                <i class="fab fa-github"></i> Repositorio
+              </a>
+              <a href="https://construcaa.netlify.app/" target="_blank" rel="noopener" class="project-link demo">
+                <i class="fas fa-external-link-alt"></i> Ver Demo
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Proyecto 3 — Sistema de Login -->
+        <article class="project-card glass-card reveal reveal-delay-2">
+          <div class="project-image">
+            <img src="img/LOGIN.png" alt="Sistema de Login" loading="lazy">
+            <div class="project-overlay">
+              <a href="https://github.com/yoinertovar/LOGIN.git" target="_blank" rel="noopener">
+                <i class="fab fa-github"></i> Código
+              </a>
+              <a href="https://login30ydtn.netlify.app/" target="_blank" rel="noopener">
+                <i class="fas fa-external-link-alt"></i> Demo
+              </a>
+            </div>
+          </div>
+          <div class="project-body">
+            <h3>Sistema de Login</h3>
+            <p>Interfaz de autenticación moderna con fondo oscuro, recuperación de contraseña y acceso con redes sociales.</p>
+            <div class="project-tags">
+              <span class="project-tag">HTML5</span>
+              <span class="project-tag">CSS3</span>
+            </div>
+            <div class="project-links">
+              <a href="https://github.com/yoinertovar/LOGIN.git" target="_blank" rel="noopener" class="project-link repo">
+                <i class="fab fa-github"></i> Repositorio
+              </a>
+              <a href="https://login30ydtn.netlify.app/" target="_blank" rel="noopener" class="project-link demo">
+                <i class="fas fa-external-link-alt"></i> Ver Demo
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Proyecto 4 — Landing Holística -->
+        <article class="project-card glass-card reveal reveal-delay-3">
+          <div class="project-image">
+            <img src="img/LANDING2.png" alt="Landing Page Holística" loading="lazy">
+            <div class="project-overlay">
+              <a href="https://github.com/yoinertovar/LANDINGPAGE2.git" target="_blank" rel="noopener">
+                <i class="fab fa-github"></i> Código
+              </a>
+              <a href="https://landinpage2.netlify.app/" target="_blank" rel="noopener">
+                <i class="fas fa-external-link-alt"></i> Demo
+              </a>
+            </div>
+          </div>
+          <div class="project-body">
+            <h3>Landing Page — Servicios Holísticos</h3>
+            <p>Landing page estática para servicios holísticos con diseño responsivo y navegación por secciones.</p>
+            <div class="project-tags">
+              <span class="project-tag">JavaScript</span>
+              <span class="project-tag">HTML5</span>
+              <span class="project-tag">CSS3</span>
+            </div>
+            <div class="project-links">
+              <a href="https://github.com/yoinertovar/LANDINGPAGE2.git" target="_blank" rel="noopener" class="project-link repo">
+                <i class="fab fa-github"></i> Repositorio
+              </a>
+              <a href="https://landinpage2.netlify.app/" target="_blank" rel="noopener" class="project-link demo">
+                <i class="fas fa-external-link-alt"></i> Ver Demo
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Proyecto 5 — Portafolio 3.0 -->
+        <article class="project-card glass-card reveal reveal-delay-4">
+          <div class="project-image">
+            <img src="img/portafolio.png" alt="Portafolio 3.0" loading="lazy">
+            <div class="project-badge featured">Este Sitio</div>
+            <div class="project-overlay">
+              <a href="https://github.com/yoinertovar/PORTAFOLIO.git" target="_blank" rel="noopener">
+                <i class="fab fa-github"></i> Código
+              </a>
+              <a href="#home">
+                <i class="fas fa-eye"></i> Ver
+              </a>
+            </div>
+          </div>
+          <div class="project-body">
+            <h3>Portafolio 3.0</h3>
+            <p>Mi portafolio personal con Three.js, partículas, animaciones de scroll, glassmorphism y diseño futurista.</p>
+            <div class="project-tags">
+              <span class="project-tag">JavaScript</span>
+              <span class="project-tag">TailwindCSS</span>
+              <span class="project-tag">Three.js</span>
+              <span class="project-tag">IA</span>
+            </div>
+            <div class="project-links">
+              <a href="https://github.com/yoinertovar/PORTAFOLIO.git" target="_blank" rel="noopener" class="project-link repo">
+                <i class="fab fa-github"></i> Repositorio
+              </a>
+              <a href="#home" class="project-link demo">
+                <i class="fas fa-eye"></i> Ver Sitio
+              </a>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════
+       SECCIÓN IA
+  ══════════════════════════════ -->
+  <section id="ai-section" aria-labelledby="ai-heading">
+    <div class="container">
+      <div class="ai-grid">
+
+        <!-- Visual -->
+        <div class="ai-visual reveal">
+          <div class="ai-orbit">
+            <div class="orbit-dot orbit-dot-1"></div>
+          </div>
+          <div class="ai-orbit">
+            <div class="orbit-dot orbit-dot-2"></div>
+          </div>
+          <div class="ai-orbit">
+            <div class="orbit-dot orbit-dot-3"></div>
+          </div>
+          <div class="ai-core">
+            <div class="ai-core-inner"><i class="fas fa-robot"></i></div>
+          </div>
+        </div>
+
+        <!-- Features -->
+        <div>
+          <div class="section-label reveal">Inteligencia Artificial</div>
+          <h2 id="ai-heading" class="section-title reveal reveal-delay-1">
+            Potenciado por <span class="gradient-text">IA</span>
+          </h2>
+          <p class="section-desc reveal reveal-delay-2">
+            Integro herramientas de inteligencia artificial en mis flujos de trabajo para potenciar la productividad y crear experiencias más inteligentes.
+          </p>
+
+          <div class="ai-features">
+            <div class="ai-feature-card glass-card reveal reveal-delay-2">
+              <div class="ai-feature-icon" style="background:rgba(124,58,237,0.15); border:1px solid rgba(124,58,237,0.3);"><i class="fas fa-brain"></i></div>
+              <div>
+                <h4>Asistentes de IA</h4>
+                <p>Uso fluido de herramientas como ChatGPT, Gemini y Copilot para acelerar el desarrollo y mejorar la calidad del código.</p>
+              </div>
+            </div>
+
+            <div class="ai-feature-card glass-card reveal reveal-delay-3">
+              <div class="ai-feature-icon" style="background:rgba(0,212,255,0.1); border:1px solid rgba(0,212,255,0.25);"><i class="fas fa-bolt"></i></div>
+              <div>
+                <h4>Integración con APIs de IA</h4>
+                <p>Capacidad de integrar APIs como OpenAI y Google AI en interfaces web para crear experiencias interactivas e inteligentes.</p>
+              </div>
+            </div>
+
+            <div class="ai-feature-card glass-card reveal reveal-delay-4">
+              <div class="ai-feature-icon" style="background:rgba(245,158,11,0.1); border:1px solid rgba(245,158,11,0.25);"><i class="fas fa-palette"></i></div>
+              <div>
+                <h4>Diseño Asistido por IA</h4>
+                <p>Generación y optimización de recursos visuales, prompts de UI y soluciones de diseño con herramientas de IA generativa.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════
+       CONTACTO
+  ══════════════════════════════ -->
+  <section id="contact" aria-labelledby="contact-heading">
+    <div class="container">
+      <div class="contact-wrapper">
+        <div class="section-label reveal" style="justify-content:center;">Contacto</div>
+        <h2 id="contact-heading" class="section-title reveal reveal-delay-1" style="text-align:center;">
+          Hablemos <span class="gradient-text">juntos</span>
+        </h2>
+
+        <div class="contact-cta-box glass-card reveal reveal-delay-2">
+          <h3>¿Tienes un proyecto en mente?</h3>
+          <p>Estoy disponible para trabajar en proyectos freelance, colaboraciones y oportunidades laborales. ¡No dudes en escribirme!</p>
+          <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap;">
+            <a href="mailto:yoinertnwork@gmail.com" class="btn-primary">
+              <i class="fas fa-envelope"></i>
+              <span>Enviar Email</span>
+            </a>
+            <a href="https://wa.me/+573017260118" target="_blank" rel="noopener noreferrer" class="btn-outline">
+              <i class="fab fa-whatsapp"></i>
+              WhatsApp
+            </a>
+          </div>
+        </div>
+
+        <div class="socials-grid reveal reveal-delay-3">
+
+          <a href="https://wa.me/+573017260118" target="_blank" rel="noopener noreferrer"
+             class="social-card glass-card" aria-label="WhatsApp" style="color:#22c55e;">
+            <i class="fab fa-whatsapp fa-xl"></i>
+            <span>WhatsApp</span>
+          </a>
+
+          <a href="mailto:yoinertnwork@gmail.com"
+             class="social-card glass-card" aria-label="Email" style="color:#ef4444;">
+            <i class="fas fa-envelope fa-xl"></i>
+            <span>Email</span>
+          </a>
+
+          <a href="https://www.linkedin.com/in/yoiner-tovar/" target="_blank" rel="noopener noreferrer"
+             class="social-card glass-card" aria-label="LinkedIn" style="color:#3b82f6;">
+            <i class="fab fa-linkedin fa-xl"></i>
+            <span>LinkedIn</span>
+          </a>
+
+          <a href="https://github.com/yoinertovar" target="_blank" rel="noopener noreferrer"
+             class="social-card glass-card" aria-label="GitHub" style="color:var(--text-secondary);">
+            <i class="fab fa-github fa-xl"></i>
+            <span>GitHub</span>
+          </a>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════
+       FOOTER
+  ══════════════════════════════ -->
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <span class="footer-logo">YTN.</span>
+               <div style="display:flex; gap:1rem;">
+          <a href="https://github.com/yoinertovar" target="_blank" rel="noopener" style="color:var(--text-muted); font-size:1.1rem; transition:color 0.2s;" aria-label="GitHub"><i class="fab fa-github"></i></a>
+          <a href="https://www.linkedin.com/in/yoiner-tovar/" target="_blank" rel="noopener" style="color:var(--text-muted); font-size:1.1rem; transition:color 0.2s;" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Floating Nav Menu -->
+  <div class="floating-nav-container">
+    <button id="floating-nav-toggle" class="floating-nav-btn" aria-label="Abrir menú rápido" aria-expanded="false">
+      <i class="fas fa-compass"></i>
+    </button>
+    <div id="floating-nav-menu" class="floating-nav-menu glass-card">
+      <a href="#home" class="floating-nav-link"><i class="fas fa-home"></i> Inicio</a>
+      <a href="#about" class="floating-nav-link"><i class="fas fa-user"></i> Sobre Mí</a>
+      <a href="#skills" class="floating-nav-link"><i class="fas fa-code"></i> Skills</a>
+      <a href="#projects" class="floating-nav-link"><i class="fas fa-rocket"></i> Proyectos</a>
+      <a href="#ai-section" class="floating-nav-link"><i class="fas fa-robot"></i> IA</a>
+      <a href="#contact" class="floating-nav-link"><i class="fas fa-envelope"></i> Contacto</a>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="js/main.js"></script>
+
 </body>
-
 </html>
