@@ -1,0 +1,292 @@
+:host {
+  position: absolute;
+  inset: 0;
+  display: block;
+  z-index: 1;
+}
+
+.tech-orbit {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: min(100%, 92vmin);
+  height: min(100%, 92vmin);
+  --orbit-duration: 42s;
+}
+
+.tech-orbit__shells {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.tech-orbit__shell {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.tech-orbit__shell.is-empty {
+  opacity: 0.36;
+}
+
+.tech-orbit__shell-frame {
+  position: absolute;
+  inset: 0;
+  transform: rotate(var(--shell-tilt)) scaleY(var(--shell-squash));
+  transform-origin: center;
+}
+
+.tech-orbit__shell-ring {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: calc(var(--shell-radius) * 2);
+  height: calc(var(--shell-radius) * 2);
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  box-shadow:
+    inset 0 0 0 1px rgba(34, 211, 238, 0.03),
+    inset 0 0 30px rgba(124, 58, 237, 0.05);
+  pointer-events: none;
+}
+
+.tech-orbit__shell-motion {
+  position: absolute;
+  inset: 0;
+  transform-origin: center;
+  will-change: transform;
+  animation: orbit-spin var(--shell-duration, var(--orbit-duration)) linear infinite;
+}
+
+.tech-orbit__shell-motion--reverse {
+  animation-direction: reverse;
+}
+
+.tech-orbit__item {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: clamp(60px, 6vw, 78px);
+  height: clamp(60px, 6vw, 78px);
+  transform: translate(-50%, -50%) rotate(var(--tech-angle)) translateX(var(--shell-radius));
+  transform-origin: center;
+  transition: transform 220ms var(--ease-out), filter 220ms var(--ease-out);
+  will-change: transform;
+}
+
+.tech-orbit__item:hover,
+.tech-orbit__item:focus-visible {
+  transform: translate(-50%, -50%) rotate(var(--tech-angle)) translateX(var(--shell-radius)) scale(1.08);
+  z-index: 4;
+}
+
+.tech-orbit__item-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  transform: scaleY(calc(1 / var(--shell-squash)));
+}
+
+.tech-orbit__item-core {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  transform-origin: center;
+  animation: orbit-counter-spin var(--shell-duration, var(--orbit-duration)) linear infinite;
+}
+
+.tech-orbit__item:hover .tech-orbit__item-core,
+.tech-orbit__item:focus-visible .tech-orbit__item-core {
+  filter: drop-shadow(0 0 16px var(--tech-accent));
+}
+
+.tech-orbit__icon {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.06) 42%, rgba(10, 16, 32, 0.86) 100%);
+  color: var(--tech-accent, var(--accent-2));
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
+  transition: transform 180ms var(--ease-out), filter 180ms var(--ease-out), background 180ms var(--ease-out);
+}
+
+.tech-orbit__icon img {
+  width: 58%;
+  height: 58%;
+  object-fit: contain;
+}
+
+.tech-orbit__icon--img img {
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.1));
+}
+
+.tech-orbit__item:hover .tech-orbit__icon,
+.tech-orbit__item:focus-visible .tech-orbit__icon {
+  transform: scale(1.08);
+  filter: drop-shadow(0 0 16px var(--tech-accent));
+}
+
+.tech-orbit__tooltip {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, calc(-100% - 0.5rem));
+  padding: 0.4rem 0.65rem;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(6, 10, 25, 0.92);
+  color: var(--text-0);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 180ms var(--ease-out), transform 180ms var(--ease-out), border-color 180ms var(--ease-out);
+}
+
+.tech-orbit__item:hover .tech-orbit__tooltip,
+.tech-orbit__item:focus-visible .tech-orbit__tooltip {
+  opacity: 1;
+  transform: translate(-50%, calc(-100% - 0.8rem));
+  border-color: var(--line-strong);
+}
+
+.tech-orbit__filters {
+  position: absolute;
+  top: 0.85rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.45rem;
+  padding: 0.45rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(6, 10, 25, 0.58);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  z-index: 4;
+}
+
+.tech-orbit__filter {
+  min-height: 2.35rem;
+  padding: 0.45rem 0.8rem;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text-2);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  transition: color 180ms var(--ease-out), background 180ms var(--ease-out), border-color 180ms var(--ease-out), transform 180ms var(--ease-out);
+}
+
+.tech-orbit__filter:hover,
+.tech-orbit__filter.is-active {
+  color: var(--text-0);
+  border-color: var(--line);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.tech-orbit__filter:hover {
+  transform: translateY(-1px);
+}
+
+:host(.is-paused) .tech-orbit__shell-motion,
+:host(.is-paused) .tech-orbit__item-core,
+:host(.is-paused) .tech-orbit__nucleus {
+  animation-play-state: paused;
+}
+
+@keyframes orbit-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes orbit-counter-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+@media (max-width: 980px) {
+  :host {
+    position: relative;
+    inset: auto;
+  }
+
+  .tech-orbit {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    height: auto;
+    margin: 0;
+  }
+
+  .tech-orbit__shells {
+    position: relative;
+    min-height: clamp(680px, 80vh, 820px);
+  }
+
+  .tech-orbit__item {
+    width: clamp(56px, 11vw, 70px);
+    height: clamp(56px, 11vw, 70px);
+  }
+
+  .tech-orbit__icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .tech-orbit__filters {
+    position: static;
+    transform: none;
+    margin-top: 1rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .tech-orbit__shells {
+    min-height: clamp(620px, 82vh, 740px);
+  }
+
+  .tech-orbit__item {
+    width: clamp(52px, 13vw, 64px);
+    height: clamp(52px, 13vw, 64px);
+  }
+
+  .tech-orbit__icon {
+    width: 34px;
+    height: 34px;
+  }
+
+  .tech-orbit__filter {
+    flex: 1 1 calc(50% - 0.45rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tech-orbit__shell-motion,
+  .tech-orbit__item-core,
+  .tech-orbit__nucleus {
+    animation: none !important;
+  }
+}

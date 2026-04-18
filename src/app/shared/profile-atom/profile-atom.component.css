@@ -1,0 +1,267 @@
+:host {
+  position: absolute;
+  inset: calc(var(--atom-overhang, clamp(5rem, 10vw, 8rem)) * -1);
+  display: block;
+  pointer-events: none;
+  isolation: isolate;
+  overflow: visible;
+}
+
+.profile-atom {
+  position: absolute;
+  inset: 0;
+  display: block;
+  pointer-events: none;
+  contain: layout paint size;
+}
+
+.profile-atom__ambient {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  mix-blend-mode: screen;
+}
+
+.profile-atom__ambient--one {
+  width: clamp(20rem, 34vw, 32rem);
+  height: clamp(20rem, 34vw, 32rem);
+  background: radial-gradient(circle, rgba(124, 58, 237, 0.22) 0%, rgba(124, 58, 237, 0) 66%);
+  filter: blur(28px);
+  opacity: 0.9;
+  animation: haze-drift 18s ease-in-out infinite alternate;
+}
+
+.profile-atom__ambient--two {
+  width: clamp(26rem, 48vw, 42rem);
+  height: clamp(26rem, 48vw, 42rem);
+  background: radial-gradient(circle, rgba(34, 211, 238, 0.14) 0%, rgba(34, 211, 238, 0) 68%);
+  filter: blur(36px);
+  opacity: 0.7;
+  animation: haze-drift 24s ease-in-out infinite alternate-reverse;
+}
+
+.profile-atom__trails {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  opacity: 0.88;
+  filter: saturate(1.2) blur(0.2px);
+}
+
+.profile-atom__orbits {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.profile-atom__orbit {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  transform-origin: center;
+  will-change: transform, opacity;
+}
+
+.profile-atom__orbit--back,
+.profile-atom__orbit--front {
+  opacity: 1;
+}
+
+.profile-atom__orbit-ring {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: var(--orbit-diameter, 24rem);
+  height: var(--orbit-diameter, 24rem);
+  border-radius: 50%;
+  transform:
+    translate(-50%, -50%)
+    rotateZ(var(--orbit-tilt-z, 0deg))
+    rotateX(var(--orbit-tilt-x, 0deg))
+    rotateY(var(--orbit-tilt-y, 0deg))
+    rotateZ(var(--orbit-spin, 0rad))
+    scaleY(var(--orbit-squash, 0.6));
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.05), transparent 60%);
+  box-shadow:
+    inset 0 0 24px rgba(255, 255, 255, 0.04),
+    inset 0 0 42px rgba(124, 58, 237, 0.05);
+  filter: drop-shadow(0 0 18px var(--orbit-accent, #7c3aed));
+  opacity: var(--orbit-opacity, 0.65);
+}
+
+.profile-atom__orbit-track {
+  position: absolute;
+  inset: 0;
+}
+
+.profile-atom__bubble {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: grid;
+  place-items: center;
+  width: var(--bubble-size, clamp(3.4rem, 4.8vw, 5rem));
+  height: var(--bubble-size, clamp(3.4rem, 4.8vw, 5rem));
+  pointer-events: auto;
+  text-decoration: none;
+  user-select: none;
+  touch-action: manipulation;
+  will-change: transform, opacity, filter;
+}
+
+.profile-atom__bubble-shell {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background:
+    radial-gradient(circle at 28% 25%, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0.08) 34%, rgba(10, 16, 32, 0.84) 100%);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow:
+    0 18px 28px rgba(0, 0, 0, 0.32),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+  transform-origin: center;
+  filter:
+    blur(var(--bubble-blur, 0px))
+    brightness(var(--bubble-brightness, 1))
+    saturate(var(--bubble-saturation, 1))
+    drop-shadow(0 0 12px var(--bubble-accent, #22d3ee));
+  transition:
+    transform 180ms var(--ease-out),
+    box-shadow 180ms var(--ease-out),
+    border-color 180ms var(--ease-out),
+    background 180ms var(--ease-out),
+    filter 180ms var(--ease-out);
+  overflow: visible;
+}
+
+.profile-atom__bubble:hover .profile-atom__bubble-shell,
+.profile-atom__bubble:focus-visible .profile-atom__bubble-shell {
+  --bubble-blur: 0px;
+  --bubble-brightness: 1.12;
+  --bubble-saturation: 1.22;
+  transform: scale(1.1);
+  border-color: rgba(255, 255, 255, 0.26);
+  background:
+    radial-gradient(circle at 28% 25%, rgba(255, 255, 255, 0.34), rgba(255, 255, 255, 0.1) 34%, rgba(10, 16, 32, 0.9) 100%);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 20px 36px rgba(0, 0, 0, 0.34);
+}
+
+.profile-atom__bubble-icon {
+  width: 42%;
+  height: 42%;
+  display: grid;
+  place-items: center;
+  color: var(--bubble-accent, var(--accent-2));
+  text-shadow: 0 0 16px var(--bubble-accent, var(--accent-2));
+}
+
+.profile-atom__bubble-icon i {
+  font-size: 1.08rem;
+}
+
+.profile-atom__bubble-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.12));
+}
+
+.profile-atom__bubble-icon--img img {
+  width: 60%;
+  height: 60%;
+}
+
+.profile-atom__bubble-label {
+  position: absolute;
+  left: 50%;
+  top: calc(100% + 0.4rem);
+  transform: translateX(-50%) translateY(-6px);
+  padding: 0.34rem 0.64rem;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  background: rgba(4, 8, 20, 0.92);
+  color: var(--text-0);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  box-shadow: 0 12px 22px rgba(0, 0, 0, 0.24);
+  transition:
+    opacity 160ms var(--ease-out),
+    transform 160ms var(--ease-out),
+    border-color 160ms var(--ease-out);
+}
+
+.profile-atom__bubble:hover .profile-atom__bubble-label,
+.profile-atom__bubble:focus-visible .profile-atom__bubble-label {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+  border-color: rgba(255, 255, 255, 0.28);
+}
+
+@keyframes haze-drift {
+  from {
+    transform: translate(-50%, -50%) translate3d(0, 0, 0) scale(1);
+  }
+
+  to {
+    transform: translate(-50%, -50%) translate3d(22px, -18px, 0) scale(1.08);
+  }
+}
+
+@media (max-width: 980px) {
+  :host {
+    inset: calc(var(--atom-overhang, clamp(4rem, 11vw, 6rem)) * -1);
+  }
+
+  .profile-atom__bubble-label {
+    font-size: 0.63rem;
+  }
+}
+
+@media (max-width: 640px) {
+  :host {
+    inset: calc(var(--atom-overhang, clamp(3rem, 9vw, 4.5rem)) * -1);
+  }
+
+  .profile-atom__ambient--one {
+    width: clamp(16rem, 52vw, 24rem);
+    height: clamp(16rem, 52vw, 24rem);
+  }
+
+  .profile-atom__ambient--two {
+    width: clamp(20rem, 64vw, 30rem);
+    height: clamp(20rem, 64vw, 30rem);
+  }
+
+  .profile-atom__bubble-label {
+    font-size: 0.6rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .profile-atom__ambient {
+    animation: none !important;
+  }
+
+  .profile-atom__bubble-shell {
+    transition-duration: 0.01ms !important;
+  }
+}

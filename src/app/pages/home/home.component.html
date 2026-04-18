@@ -1,0 +1,59 @@
+<section class="home-page">
+  <div class="home-blob home-blob--one" aria-hidden="true"></div>
+  <div class="home-blob home-blob--two" aria-hidden="true"></div>
+  <div class="home-blob home-blob--three" aria-hidden="true"></div>
+
+  <div class="home-stage">
+    <div class="home-orbit-shell">
+      <article class="home-profile glass-card">
+        <div class="home-profile__status">
+          <span class="home-profile__dot"></span>
+          Disponible para proyectos y oportunidades
+        </div>
+
+        <div class="home-profile__avatar-shell">
+          <div class="home-profile__avatar-ring"></div>
+          <img
+            src="img/yoiner.jpg"
+            alt="Foto de perfil de Yoiner Tovar N."
+            class="home-profile__avatar"
+            loading="eager"
+            fetchpriority="high"
+          >
+        </div>
+
+        <p class="home-profile__eyebrow">Frontend · Angular · React</p>
+        <h1 class="home-profile__name">Yoiner Tovar N.</h1>
+        <p class="home-profile__lead">
+          Desarrollo interfaces en Angular y React con foco en claridad, rendimiento y sistemas visuales.
+          Quiero que un recruiter entienda mi valor en segundos.
+        </p>
+
+        <div class="home-profile__actions">
+          <a routerLink="/proyectos" class="button button--primary">
+            <i class="fa-solid fa-rocket"></i>
+            Ver proyectos
+          </a>
+          <a href="pdf/CV%20yoinertn%20.pdf" download="Yoiner-TN-CV.pdf" class="button button--ghost">
+            <i class="fa-solid fa-download"></i>
+            Descargar CV
+          </a>
+          <a routerLink="/contacto" class="button button--ghost">
+            <i class="fa-solid fa-paper-plane"></i>
+            Contáctame
+          </a>
+        </div>
+
+        <div class="home-profile__chips">
+          <span class="chip">Angular</span>
+          <span class="chip">React</span>
+          <span class="chip">TypeScript</span>
+          <span class="chip">IA aplicada</span>
+          <span class="chip">UI/UX</span>
+        </div>
+      </article>
+
+      <app-profile-atom></app-profile-atom>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,71 @@
+<section
+  class="tech-orbit"
+  (pointerenter)="pauseOrbit()"
+  (pointerleave)="resumeOrbit()"
+>
+  <div class="tech-orbit__nucleus" aria-hidden="true">
+    <span class="tech-orbit__nucleus-glow"></span>
+    <span class="tech-orbit__nucleus-particle tech-orbit__nucleus-particle--blue" style="--x:-1.5rem; --y:-1rem;"></span>
+    <span class="tech-orbit__nucleus-particle tech-orbit__nucleus-particle--red" style="--x:0.95rem; --y:-1.25rem;"></span>
+    <span class="tech-orbit__nucleus-particle tech-orbit__nucleus-particle--blue" style="--x:-0.25rem; --y:0.95rem;"></span>
+    <span class="tech-orbit__nucleus-particle tech-orbit__nucleus-particle--red" style="--x:1.6rem; --y:0.55rem;"></span>
+    <span class="tech-orbit__nucleus-particle tech-orbit__nucleus-particle--blue" style="--x:-1.7rem; --y:1.2rem;"></span>
+    <span class="tech-orbit__nucleus-core">+</span>
+  </div>
+
+  <div class="tech-orbit__shells">
+    <div
+      *ngFor="let shell of orbitShells; trackBy: trackByShell"
+      class="tech-orbit__shell"
+      [class.is-empty]="shell.items.length === 0"
+      [style.--shell-radius]="shell.radius"
+      [style.--shell-duration]="shell.duration"
+      [style.--shell-tilt]="shell.tilt"
+      [style.--shell-squash]="shell.squash"
+      [attr.aria-label]="shell.label + ' orbit'"
+    >
+      <div class="tech-orbit__shell-frame">
+        <span class="tech-orbit__shell-ring" aria-hidden="true"></span>
+
+        <div class="tech-orbit__shell-motion" [class.tech-orbit__shell-motion--reverse]="shell.reverse">
+          <a
+            *ngFor="let tech of shell.items; trackBy: trackBySlug"
+            [routerLink]="['/skills']"
+            [queryParams]="{ tech: tech.slug }"
+            class="tech-orbit__item"
+            [style.--tech-angle]="tech.angle + 'deg'"
+            [style.--tech-accent]="tech.accent"
+            [attr.title]="tech.name"
+            [attr.aria-label]="'Ver skills de ' + tech.name"
+          >
+            <span class="tech-orbit__item-inner">
+              <span class="tech-orbit__item-core">
+                <span class="tech-orbit__icon" [class.tech-orbit__icon--img]="tech.iconKind === 'img'">
+                  <img *ngIf="tech.iconKind === 'img'; else faIcon" [src]="tech.icon" [alt]="tech.name" loading="lazy">
+                  <ng-template #faIcon>
+                    <i [class]="tech.icon"></i>
+                  </ng-template>
+                </span>
+
+                <span class="tech-orbit__tooltip">{{ tech.name }}</span>
+              </span>
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tech-orbit__filters" role="tablist" aria-label="Filtrar tecnologías">
+    <button
+      *ngFor="let category of categories; trackBy: trackByCategory"
+      type="button"
+      class="tech-orbit__filter"
+      [class.is-active]="category.key === activeCategory"
+      [attr.aria-pressed]="category.key === activeCategory"
+      (click)="selectCategory(category.key)"
+    >
+      {{ category.label }}
+    </button>
+  </div>
+</section>

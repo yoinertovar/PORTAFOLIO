@@ -29,7 +29,7 @@
                 "output": "pdf"
               }
             ],
-            "styles": ["css/styles.css"],
+            "styles": ["css/portfolio.css"],
             "scripts": []
           },
           "configurations": {

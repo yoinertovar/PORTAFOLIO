@@ -1,0 +1,27 @@
+:host {
+  display: block;
+}
+
+.skills-stack {
+  margin-top: 1rem;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.skill-icon {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+}
+
+.chip i {
+  font-size: 14px;
+}
+
+.chip-icon-color { color: #38BDF8; }
+.chip-icon-color-purple { color: #A855F7; }
+.chip-icon-color-blue { color: #60A5FA; }

@@ -1,0 +1,37 @@
+:host {
+  display: block;
+}
+
+.carousel-viewport {
+  display: flex;
+  overflow-x: auto;
+  gap: 2rem;
+  padding-bottom: 2rem;
+  /* hide native scrollbar but allow scrolling */
+  -ms-overflow-style: none; /* IE/Edge */
+  scrollbar-width: none; /* Firefox */
+  cursor: grab;
+}
+
+.carousel-viewport::-webkit-scrollbar {
+  display: none;
+}
+
+.carousel-viewport:active {
+  cursor: grabbing;
+}
+
+.carousel-viewport .project-card {
+  flex: 0 0 clamp(300px, 80vw, 420px);
+  /* The layout defaults generally support flex direction. 
+     The text content dynamically grows and the image sits at the bottom */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.layout-3 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}

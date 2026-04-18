@@ -1,0 +1,85 @@
+<section class="page-shell">
+  <header class="page-hero glass-card">
+    <a routerLink="/" class="back-link">
+      <i class="fa-solid fa-arrow-left"></i>
+      Volver al inicio
+    </a>
+
+    <p class="section-kicker">Proyectos</p>
+    <h1 class="section-title">Productos digitales con foco en UI, rendimiento y utilidad real.</h1>
+    <p class="section-copy">
+      Una selección de trabajo construido con criterio visual, componentes claros y experiencias que buscan ser rápidas, sólidas y memorables.
+    </p>
+  </header>
+
+  <div class="layout-3 mb-2" style="margin-bottom: 2rem;">
+    <article class="panel glass-card">
+      <p class="eyebrow">Resumen</p>
+      <h3>Entrega pensada para producto</h3>
+      <p>
+        Cada proyecto busca equilibrio entre estética, claridad y un flujo de interacción simple.
+      </p>
+    </article>
+
+    <article class="metric-card glass-card">
+      <p class="eyebrow">Enfoque</p>
+      <p class="metric-value">UI + lógica</p>
+      <p class="metric-label">Componentes reutilizables y experiencia consistente.</p>
+    </article>
+
+    <article class="metric-card glass-card">
+      <p class="eyebrow">Tecnología</p>
+      <p class="metric-value">Angular / React</p>
+      <p class="metric-label">Stack mixto con interés en performance y diseño.</p>
+    </article>
+  </div>
+
+  <div class="carousel-viewport" 
+       #carousel 
+       (mouseenter)="onInteract(true)" 
+       (mouseleave)="onInteract(false)"
+       (touchstart)="onInteract(true)"
+       (touchend)="onInteract(false)">
+    
+    <ng-container *ngFor="let iteration of [1,2]">
+      <article class="project-card glass-card" *ngFor="let project of allProjects">
+        <div class="project-card__body">
+          <h3 class="project-card__title">{{ project.title }}</h3>
+          <p class="project-card__summary">{{ project.summary }}</p>
+
+          <div class="project-tags">
+            <span class="project-tag" *ngFor="let tech of project.tech">{{ tech }}</span>
+          </div>
+
+          <div class="action-row mt-1">
+            <a [href]="project.repo" target="_blank" rel="noopener" class="project-link">
+              <i class="fa-brands fa-github"></i>
+              Repositorio
+            </a>
+            <a [href]="project.demo" target="_blank" rel="noopener" class="project-link project-link--accent">
+              <i class="fa-solid fa-arrow-up-right-from-square"></i>
+              Demo
+            </a>
+          </div>
+        </div>
+
+        <div class="project-card__media" style="margin-top: 1.5rem; border-radius: var(--radius-md, 12px); overflow: hidden;">
+          <img [src]="project.image" [alt]="project.title" loading="lazy">
+          <span class="project-card__badge" *ngIf="project.badge">{{ project.badge }}</span>
+
+          <div class="project-card__overlay">
+            <a [href]="project.repo" target="_blank" rel="noopener" class="button button--ghost">
+              <i class="fa-brands fa-github"></i>
+              Código
+            </a>
+            <a [href]="project.demo" target="_blank" rel="noopener" class="button button--primary">
+              <i class="fa-solid fa-arrow-up-right-from-square"></i>
+              Demo
+            </a>
+          </div>
+        </div>
+      </article>
+    </ng-container>
+
+  </div>
+</section>

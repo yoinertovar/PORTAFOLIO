@@ -1,0 +1,33 @@
+<div class="profile-atom">
+  <div class="profile-atom__orbits">
+    <div
+      *ngFor="let orbit of orbitViewModels; trackBy: trackByOrbit"
+      #orbitNode
+      class="profile-atom__orbit"
+      [class.profile-atom__orbit--front]="orbit.layer === 'front'"
+      [class.profile-atom__orbit--back]="orbit.layer === 'back'"
+    >
+      <div class="profile-atom__orbit-track">
+        <a
+          *ngFor="let electron of orbit.electrons; trackBy: trackByElectron"
+          #electronNode
+          [routerLink]="['/skills']"
+          class="profile-atom__bubble"
+          [attr.title]="electron.name"
+          [attr.aria-label]="'Ver skills de ' + electron.name"
+        >
+          <span class="profile-atom__bubble-shell">
+            <span class="profile-atom__bubble-icon" [class.profile-atom__bubble-icon--img]="electron.iconKind === 'img'">
+              <img *ngIf="electron.iconKind === 'img'; else faIcon" [src]="electron.icon" [alt]="electron.name" loading="lazy">
+              <ng-template #faIcon>
+                <i [class]="electron.icon"></i>
+              </ng-template>
+            </span>
+
+            <span class="profile-atom__bubble-label">{{ electron.name }}</span>
+          </span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

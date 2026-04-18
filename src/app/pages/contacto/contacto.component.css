@@ -1,0 +1,40 @@
+:host {
+  display: block;
+}
+
+/* Brand Colors for Contact Cards */
+.brand-email .contact-card__icon {
+  color: #ea4335;
+}
+.brand-email:hover {
+  border-color: rgba(234, 67, 53, 0.5);
+  box-shadow: 0 4px 20px rgba(234, 67, 53, 0.15);
+}
+
+.brand-whatsapp .contact-card__icon {
+  color: #25d366;
+}
+.brand-whatsapp:hover {
+  border-color: rgba(37, 211, 102, 0.5);
+  box-shadow: 0 4px 20px rgba(37, 211, 102, 0.15);
+}
+
+.brand-linkedin .contact-card__icon {
+  color: #0a66c2;
+}
+.brand-linkedin:hover {
+  border-color: rgba(10, 102, 194, 0.5);
+  box-shadow: 0 4px 20px rgba(10, 102, 194, 0.15);
+}
+
+.brand-github .contact-card__icon {
+  color: #ffffff;
+}
+.brand-github:hover {
+  border-color: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 4px 20px rgba(255, 255, 255, 0.1);
+}
+
+.contact-card {
+  transition: all 0.3s ease;
+}

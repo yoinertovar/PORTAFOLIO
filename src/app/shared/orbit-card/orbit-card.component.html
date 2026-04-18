@@ -1,0 +1,22 @@
+<a
+  [routerLink]="route"
+  class="orbit-card"
+  [style.--orbit-angle]="angle + 'deg'"
+  [style.--orbit-radius]="radius"
+  [attr.aria-label]="label"
+>
+  <span class="orbit-card__inner">
+    <span class="orbit-card__icon" aria-hidden="true">
+      <i [class]="icon"></i>
+    </span>
+
+    <span class="orbit-card__content">
+      <span class="orbit-card__title">{{ label }}</span>
+      <span class="orbit-card__copy">{{ copy }}</span>
+    </span>
+
+    <span class="orbit-card__arrow" aria-hidden="true">
+      <i class="fa-solid fa-arrow-right"></i>
+    </span>
+  </span>
+</a>
